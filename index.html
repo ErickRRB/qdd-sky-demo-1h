@@ -1,0 +1,2730 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Presentación autoexplicativa sobre los componentes, workflows, ejecución y checkpoints de QDD Sky."
+    />
+    <title>QDD Sky — Demo</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #10233f;
+        --muted: #53647c;
+        --line: #d8e1ec;
+        --paper: #ffffff;
+        --canvas: #f3f7fb;
+        --blue: #0088cc;
+        --blue-dark: #006a9f;
+        --blue-soft: #e8f6fc;
+        --navy: #10233f;
+        --green: #167352;
+        --green-soft: #e9f7f1;
+        --amber: #9a5a00;
+        --amber-soft: #fff5df;
+        --red: #a43b4f;
+        --red-soft: #fff0f3;
+        --violet: #5b4aa3;
+        --violet-soft: #f1effb;
+        --shadow: 0 18px 50px rgb(16 35 63 / 10%);
+        --radius: 22px;
+        --content: min(1180px, calc(100vw - 48px));
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: auto;
+        scroll-snap-type: y proximity;
+        background: var(--canvas);
+      }
+
+      body {
+        margin: 0;
+        background: var(--canvas);
+        color: var(--ink);
+        line-height: 1.5;
+      }
+
+      body.index-open {
+        overflow: hidden;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      button,
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      code {
+        padding: 0.12em 0.36em;
+        border-radius: 0.38em;
+        background: #edf2f8;
+        color: #173653;
+        font-size: 0.92em;
+      }
+
+      .skip-link {
+        position: fixed;
+        z-index: 100;
+        top: -5rem;
+        left: 1rem;
+        padding: 0.7rem 1rem;
+        border: 2px solid var(--blue);
+        border-radius: 10px;
+        background: var(--paper);
+        color: var(--ink);
+        font-weight: 750;
+      }
+
+      .skip-link:focus {
+        top: 1rem;
+      }
+
+      .topbar {
+        position: fixed;
+        z-index: 30;
+        top: 0;
+        left: 0;
+        display: grid;
+        width: 100%;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.7rem clamp(1rem, 3vw, 2.5rem);
+        border-bottom: 1px solid rgb(216 225 236 / 88%);
+        background: rgb(255 255 255 / 92%);
+        backdrop-filter: blur(14px);
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.65rem;
+        width: max-content;
+        color: var(--ink);
+        font-weight: 850;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 2rem;
+        height: 2rem;
+        place-items: center;
+        border-radius: 9px;
+        background: var(--navy);
+        color: #fff;
+        font-size: 0.7rem;
+        letter-spacing: 0.05em;
+      }
+
+      .section-name {
+        overflow: hidden;
+        max-width: min(44vw, 34rem);
+        color: var(--muted);
+        font-size: 0.88rem;
+        font-weight: 700;
+        text-align: center;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .top-actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 0.6rem;
+      }
+
+      .counter {
+        min-width: 4.5rem;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+        font-weight: 750;
+        text-align: right;
+      }
+
+      .icon-button,
+      .nav-button,
+      .index-link {
+        border: 1px solid var(--line);
+        background: var(--paper);
+        color: var(--ink);
+        cursor: pointer;
+      }
+
+      .icon-button {
+        min-width: 5.4rem;
+        padding: 0.55rem 0.8rem;
+        border-radius: 10px;
+        font-size: 0.84rem;
+        font-weight: 760;
+      }
+
+      .progress-track {
+        position: fixed;
+        z-index: 31;
+        top: 3.43rem;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: #dfe7f0;
+      }
+
+      .progress-bar {
+        width: 7.14%;
+        height: 100%;
+        background: var(--blue);
+        transform-origin: left;
+        transition: width 180ms ease;
+      }
+
+      main {
+        display: block;
+      }
+
+      .slide {
+        display: flex;
+        min-height: 100svh;
+        scroll-snap-align: start;
+        align-items: center;
+        padding: clamp(5.6rem, 8vw, 7.3rem) 0 clamp(5.5rem, 8vw, 7rem);
+      }
+
+      .slide:nth-child(even) {
+        background: var(--paper);
+      }
+
+      .slide-inner {
+        width: var(--content);
+        margin-inline: auto;
+      }
+
+      .overview-slide .slide-inner > .kicker,
+      .overview-slide .slide-inner > h2,
+      .overview-slide .slide-inner > .lead,
+      .overview-slide .slide-inner > .definition,
+      .overview-heading {
+        text-align: center;
+      }
+
+      .overview-slide .slide-inner > .lead,
+      .overview-slide .slide-inner > .definition {
+        margin-inline: auto;
+      }
+
+      .overview-slide h2 {
+        max-width: none;
+      }
+
+      .overview-heading {
+        margin-bottom: 1rem;
+      }
+
+      .overview-heading .kicker {
+        margin-bottom: 0.35rem;
+      }
+
+      .overview-heading h2 {
+        margin-bottom: 0;
+      }
+
+      .kicker {
+        margin: 0 0 0.65rem;
+        color: var(--blue-dark);
+        font-size: 0.82rem;
+        font-weight: 850;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        text-wrap: pretty;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin-top: 0;
+        line-height: 1.08;
+      }
+
+      h1 {
+        max-width: 10ch;
+        margin-bottom: 1.25rem;
+        font-size: clamp(4rem, 11vw, 8.5rem);
+        letter-spacing: -0.065em;
+      }
+
+      h2 {
+        max-width: 17ch;
+        margin-bottom: 1rem;
+        font-size: clamp(2.2rem, 5.5vw, 4.8rem);
+        letter-spacing: -0.045em;
+      }
+
+      h3 {
+        margin-bottom: 0.5rem;
+        font-size: clamp(1.05rem, 1.7vw, 1.35rem);
+      }
+
+      p {
+        margin-top: 0;
+      }
+
+      .lead {
+        max-width: 64ch;
+        color: var(--muted);
+        font-size: clamp(1.08rem, 2.1vw, 1.42rem);
+      }
+
+      .hero-grid,
+      .split,
+      .illustration-layout {
+        display: grid;
+        align-items: center;
+        gap: clamp(2rem, 5vw, 5rem);
+      }
+
+      .hero-grid {
+        grid-template-columns: 1.05fr 0.95fr;
+      }
+
+      .hero-panel {
+        padding: clamp(1.5rem, 4vw, 3rem);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--paper);
+        box-shadow: var(--shadow);
+      }
+
+      .prompt-stack {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .prompt-line {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.8rem;
+        align-items: center;
+        padding: 0.85rem 1rem;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #f8fbfe;
+      }
+
+      .prompt-line::before {
+        color: var(--blue-dark);
+        content: ">";
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-weight: 900;
+      }
+
+      .prompt-line code {
+        padding: 0;
+        background: transparent;
+        color: var(--ink);
+        font-size: 0.9rem;
+        font-weight: 720;
+      }
+
+      .objective-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-top: 1.8rem;
+      }
+
+      .objective-column {
+        padding: 1.3rem;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--paper);
+      }
+
+      .objective-column h3 {
+        margin-bottom: 1rem;
+      }
+
+      .objective-column.is-qdd {
+        border-top: 4px solid var(--blue);
+      }
+
+      .context-intro {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .context-intro article {
+        padding: 1.25rem 1.35rem;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--paper);
+      }
+
+      .context-intro h3 {
+        margin-bottom: 0.8rem;
+      }
+
+      .context-intro p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .context-intro code {
+        font-size: 0.82rem;
+      }
+
+      .surface-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.8rem;
+        margin-top: 1.4rem;
+      }
+
+      .surface-card {
+        padding: 1rem 1.1rem;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--paper);
+      }
+
+      .surface-card strong {
+        display: block;
+        margin-bottom: 0.3rem;
+      }
+
+      .surface-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+
+      .definition {
+        margin-bottom: 1.2rem;
+        color: var(--ink);
+        font-size: clamp(1.15rem, 2.25vw, 1.55rem);
+        font-weight: 720;
+      }
+
+      .plain-list,
+      .check-list {
+        display: grid;
+        gap: 0.78rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .plain-list li,
+      .check-list li {
+        position: relative;
+        padding-left: 1.55rem;
+        color: var(--muted);
+      }
+
+      .plain-list li::before {
+        position: absolute;
+        top: 0.6em;
+        left: 0.1rem;
+        width: 0.45rem;
+        height: 0.45rem;
+        border-radius: 50%;
+        background: var(--blue);
+        content: "";
+      }
+
+      .check-list li::before {
+        position: absolute;
+        left: 0;
+        color: var(--green);
+        content: "✓";
+        font-weight: 900;
+      }
+
+      .keyboard-help {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      kbd {
+        min-width: 2rem;
+        padding: 0.18rem 0.45rem;
+        border: 1px solid #bdcad9;
+        border-bottom-width: 3px;
+        border-radius: 6px;
+        background: #fff;
+        color: var(--ink);
+        font-family: inherit;
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-align: center;
+      }
+
+      .context-grid,
+      .component-grid,
+      .workflow-grid,
+      .role-grid,
+      .outcome-grid {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .context-grid {
+        grid-template-columns: repeat(5, 1fr);
+        margin-top: 2.2rem;
+      }
+
+      .context-card,
+      .component-card,
+      .workflow-card,
+      .role-card,
+      .outcome-card,
+      .note-card {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--paper);
+      }
+
+      .context-card {
+        min-height: 9rem;
+        padding: 1.15rem;
+      }
+
+      .context-card strong {
+        display: block;
+        margin-bottom: 0.55rem;
+        color: var(--ink);
+      }
+
+      .context-card span {
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .context-result {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 1rem;
+        align-items: center;
+        margin-top: 1.25rem;
+        padding: 1.15rem 1.3rem;
+        border-left: 4px solid var(--blue);
+        border-radius: 0 14px 14px 0;
+        background: var(--blue-soft);
+      }
+
+      .context-result strong {
+        font-size: 1.05rem;
+      }
+
+      .context-result p {
+        margin: 0;
+        color: #34516d;
+      }
+
+      .illustration-layout {
+        grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
+      }
+
+      .component-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 0.82fr) minmax(27rem, 1.18fr);
+        gap: 2rem;
+        align-items: stretch;
+      }
+
+      .component-layout .art-card {
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+      }
+
+      .component-layout .art-card img {
+        min-height: 0;
+        flex: 1;
+        object-fit: contain;
+      }
+
+      .component-layout .component-grid {
+        margin: 0;
+      }
+
+      .art-card {
+        overflow: hidden;
+        margin: 0;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: #fff;
+      }
+
+      .art-card img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .art-card figcaption {
+        padding: 0.7rem 1rem 0.9rem;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .component-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .component-card {
+        padding: 0.9rem 1rem;
+      }
+
+      .component-card strong {
+        display: block;
+        margin-bottom: 0.15rem;
+        font-size: 0.95rem;
+      }
+
+      .component-card span {
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .layer-diagram {
+        display: grid;
+        gap: 0.8rem;
+        margin-top: 2.25rem;
+      }
+
+      .layer-row {
+        display: grid;
+        grid-template-columns: 10.5rem 1fr;
+        gap: 1rem;
+        align-items: stretch;
+      }
+
+      .layer-label {
+        display: grid;
+        place-items: center;
+        min-height: 5.4rem;
+        padding: 1rem;
+        border-radius: 14px;
+        background: var(--navy);
+        color: #fff;
+        font-weight: 850;
+        text-align: center;
+      }
+
+      .layer-content {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.8rem;
+      }
+
+      .layer-item {
+        display: grid;
+        align-content: center;
+        min-height: 5.4rem;
+        padding: 0.85rem 1rem;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--paper);
+      }
+
+      .layer-item strong {
+        display: block;
+        margin-bottom: 0.15rem;
+      }
+
+      .layer-item span {
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+
+      .layer-rules {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .relationship-note {
+        margin-top: 1rem;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .execution-flow {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 1.2rem;
+        margin-top: 2.2rem;
+      }
+
+      .flow-step {
+        position: relative;
+        min-height: 9.5rem;
+        padding: 1.1rem 1rem;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--paper);
+      }
+
+      button.flow-step {
+        width: 100%;
+        color: var(--ink);
+        font: inherit;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      button.flow-step:hover,
+      button.flow-step[aria-expanded="true"] {
+        border-color: var(--blue);
+        background: #f8fcff;
+        box-shadow: 0 8px 22px rgb(0 145 213 / 10%);
+      }
+
+      .flow-step:not(:last-child)::after {
+        position: absolute;
+        z-index: 2;
+        top: 50%;
+        right: -1.18rem;
+        display: grid;
+        width: 1.1rem;
+        height: 1.1rem;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--blue);
+        color: #fff;
+        content: "›";
+        font-size: 0.95rem;
+        font-weight: 900;
+        transform: translateY(-50%);
+      }
+
+      .step-number {
+        display: block;
+        margin-bottom: 1rem;
+        color: var(--blue-dark);
+        font-size: 0.78rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+      }
+
+      .flow-step strong {
+        display: block;
+        margin-bottom: 0.35rem;
+      }
+
+      .flow-step p,
+      .flow-summary {
+        display: block;
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.84rem;
+      }
+
+      .flow-hint {
+        display: inline-block;
+        margin-top: 0.8rem;
+        color: var(--blue-dark);
+        font-size: 0.72rem;
+        font-weight: 850;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .execution-detail {
+        min-height: 4.9rem;
+      }
+
+      .execution-detail strong {
+        min-width: 11rem;
+      }
+
+      .execution-detail ol {
+        display: grid;
+        gap: 0.32rem;
+        margin: 0;
+        padding-left: 1.2rem;
+        color: #34516d;
+      }
+
+      .execution-detail li {
+        padding-left: 0.2rem;
+        font-size: 0.82rem;
+      }
+
+      .outcome-grid {
+        grid-template-columns: repeat(4, 1fr);
+        margin-top: 1rem;
+      }
+
+      .outcome-card {
+        padding: 1rem;
+        border-top-width: 4px;
+      }
+
+      .outcome-card strong {
+        display: block;
+        margin-bottom: 0.25rem;
+        font-size: 0.85rem;
+      }
+
+      .outcome-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+
+      .outcome-result {
+        border-top-color: var(--green);
+      }
+
+      .outcome-decision {
+        border-top-color: var(--amber);
+      }
+
+      .outcome-checkpoint {
+        border-top-color: var(--violet);
+      }
+
+      .outcome-blocked {
+        border-top-color: var(--red);
+      }
+
+      .workflow-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 2.2rem;
+      }
+
+      .workflow-card {
+        position: relative;
+        display: block;
+        min-height: 13rem;
+        padding: 1.5rem 1.6rem;
+        text-decoration: none;
+        transition:
+          border-color 160ms ease,
+          transform 160ms ease,
+          box-shadow 160ms ease;
+      }
+
+      .workflow-card:hover {
+        border-color: #8ccde9;
+        box-shadow: 0 14px 32px rgb(16 35 63 / 9%);
+        transform: translateY(-3px);
+      }
+
+      .workflow-number {
+        display: inline-grid;
+        width: 2.3rem;
+        height: 2.3rem;
+        place-items: center;
+        margin-bottom: 1rem;
+        border-radius: 50%;
+        background: var(--blue-soft);
+        color: var(--blue-dark);
+        font-weight: 900;
+      }
+
+      .workflow-card p {
+        max-width: 50ch;
+        margin-bottom: 2rem;
+        color: var(--muted);
+      }
+
+      .workflow-state {
+        position: absolute;
+        right: 1.4rem;
+        bottom: 1.25rem;
+        color: var(--blue-dark);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.78rem;
+        font-weight: 800;
+      }
+
+      .workflow-card .prompt-example {
+        display: block;
+        margin-top: 0.7rem;
+        color: var(--ink);
+        font-size: 0.84rem;
+        font-weight: 760;
+      }
+
+      .workflow-card .prompt-example::before {
+        color: var(--blue-dark);
+        content: "> ";
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+
+      .workflow-head {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 1.5rem;
+        align-items: end;
+        margin-bottom: 2rem;
+      }
+
+      .workflow-identity {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.65rem;
+        margin-bottom: 0.65rem;
+      }
+
+      .workflow-badge {
+        padding: 0.35rem 0.55rem;
+        border-radius: 7px;
+        background: var(--navy);
+        color: #fff;
+        font-size: 0.72rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+      }
+
+      .workflow-prompt {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+        align-items: center;
+        margin: -0.9rem 0 1.4rem;
+        color: var(--muted);
+      }
+
+      .workflow-prompt span {
+        color: var(--blue-dark);
+        font-size: 0.74rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .workflow-prompt strong {
+        color: var(--ink);
+      }
+
+      .terminal-state {
+        padding: 0.65rem 0.85rem;
+        border: 1px solid #b9dfcf;
+        border-radius: 12px;
+        background: var(--green-soft);
+        color: var(--green);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.82rem;
+        font-weight: 850;
+        white-space: nowrap;
+      }
+
+      .journey {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 0.65rem;
+      }
+
+      .journey-step {
+        position: relative;
+        min-height: 8.6rem;
+        padding: 1rem 0.8rem;
+        border-top: 4px solid var(--blue);
+        border-radius: 12px;
+        background: var(--paper);
+        box-shadow: 0 5px 18px rgb(16 35 63 / 5%);
+      }
+
+      .journey-step small {
+        display: block;
+        margin-bottom: 0.55rem;
+        color: var(--blue-dark);
+        font-size: 0.72rem;
+        font-weight: 900;
+      }
+
+      .journey-step strong {
+        font-size: 0.9rem;
+      }
+
+      .journey-step p {
+        margin: 0.35rem 0 0;
+        color: var(--muted);
+        font-size: 0.76rem;
+      }
+
+      .guardrails {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-top: 1.25rem;
+      }
+
+      .note-card {
+        padding: 1rem 1.1rem;
+      }
+
+      .note-card strong {
+        display: block;
+        margin-bottom: 0.35rem;
+      }
+
+      .note-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
+      .investigation-layout {
+        display: grid;
+        grid-template-columns: 0.78fr 1.22fr;
+        gap: 2rem;
+      }
+
+      .starts {
+        display: grid;
+        gap: 0.8rem;
+      }
+
+      .start-card {
+        padding: 1rem 1.1rem;
+        border-left: 4px solid var(--blue);
+        border-radius: 0 12px 12px 0;
+        background: var(--blue-soft);
+      }
+
+      .start-card strong {
+        display: block;
+        margin-bottom: 0.2rem;
+      }
+
+      .start-card p {
+        margin: 0;
+        color: #34516d;
+        font-size: 0.86rem;
+      }
+
+      .trace {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+      }
+
+      .trace-node {
+        min-height: 7rem;
+        padding: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--paper);
+      }
+
+      .trace-node strong {
+        display: block;
+        margin-bottom: 0.35rem;
+      }
+
+      .trace-node p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .trace-node.is-boundary {
+        border-style: dashed;
+        border-color: #d9a74e;
+        background: var(--amber-soft);
+      }
+
+      .trace-result {
+        grid-column: 1 / -1;
+        padding: 1rem 1.15rem;
+        border-radius: 14px;
+        background: var(--navy);
+        color: #fff;
+      }
+
+      .trace-result p {
+        margin: 0;
+        color: #cbd8e8;
+      }
+
+      .qa-layout,
+      .release-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.4rem;
+        margin-top: 1.6rem;
+      }
+
+      .qa-column,
+      .release-column {
+        padding: 1.35rem;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--paper);
+      }
+
+      .qa-steps {
+        display: grid;
+        gap: 0.7rem;
+        margin-top: 1rem;
+      }
+
+      .qa-step {
+        display: grid;
+        grid-template-columns: 2.1rem 1fr;
+        gap: 0.75rem;
+        align-items: start;
+      }
+
+      .qa-step-number {
+        display: grid;
+        width: 2rem;
+        height: 2rem;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--blue-soft);
+        color: var(--blue-dark);
+        font-size: 0.78rem;
+        font-weight: 900;
+      }
+
+      .qa-step p {
+        margin: 0.2rem 0 0;
+        color: var(--muted);
+        font-size: 0.84rem;
+      }
+
+      .dimension {
+        display: grid;
+        grid-template-columns: 6.5rem 1fr;
+        gap: 0.75rem;
+        align-items: start;
+        padding: 0.85rem 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .dimension:last-child {
+        border-bottom: 0;
+      }
+
+      .dimension strong {
+        font-size: 0.86rem;
+      }
+
+      .state-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+
+      .state-tag {
+        padding: 0.3rem 0.45rem;
+        border-radius: 7px;
+        background: #edf2f8;
+        color: #334b64;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.68rem;
+        font-weight: 800;
+      }
+
+      .release-evidence {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.7rem;
+        margin-top: 1rem;
+      }
+
+      .evidence-item {
+        min-height: 5.6rem;
+        padding: 0.85rem;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #f9fbfd;
+      }
+
+      .evidence-item strong {
+        display: block;
+        margin-bottom: 0.2rem;
+        font-size: 0.83rem;
+      }
+
+      .evidence-item span {
+        color: var(--muted);
+        font-size: 0.74rem;
+      }
+
+      .authority-note {
+        margin-top: 1rem;
+        padding: 1rem 1.1rem;
+        border-left: 4px solid var(--amber);
+        border-radius: 0 12px 12px 0;
+        background: var(--amber-soft);
+        color: #6f4609;
+      }
+
+      .authority-note strong {
+        display: block;
+        margin-bottom: 0.2rem;
+      }
+
+      .authority-note p {
+        margin: 0;
+        font-size: 0.86rem;
+      }
+
+      .example-banner {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 1rem;
+        align-items: center;
+        margin: 1.5rem 0;
+        padding: 1rem 1.2rem;
+        border: 1px solid #b9dded;
+        border-radius: 14px;
+        background: var(--blue-soft);
+      }
+
+      .example-label {
+        padding: 0.35rem 0.5rem;
+        border-radius: 7px;
+        background: var(--blue-dark);
+        color: #fff;
+        font-size: 0.72rem;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .example-banner p {
+        margin: 0;
+        color: #244764;
+        font-weight: 700;
+      }
+
+      .example-table-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--paper);
+      }
+
+      .example-table {
+        width: 100%;
+        min-width: 820px;
+        border-collapse: collapse;
+      }
+
+      .example-table th,
+      .example-table td {
+        padding: 1rem;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      .example-table tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .example-table th {
+        background: #f5f8fb;
+        color: var(--muted);
+        font-size: 0.76rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .example-table td {
+        font-size: 0.88rem;
+      }
+
+      .example-table td:first-child {
+        width: 20%;
+        color: var(--ink);
+        font-weight: 800;
+      }
+
+      .limits-layout {
+        grid-template-columns: minmax(0, 1.2fr) minmax(19rem, 0.8fr);
+      }
+
+      .autonomy-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.8rem;
+        margin-top: 1.5rem;
+      }
+
+      .autonomy-card {
+        min-height: 8rem;
+        padding: 1.1rem 1.2rem;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--paper);
+      }
+
+      .autonomy-card strong {
+        display: block;
+        margin-bottom: 0.35rem;
+      }
+
+      .autonomy-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      .decision-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.3fr) minmax(18rem, 0.7fr);
+        gap: 1.5rem;
+        align-items: center;
+        margin-top: 1.3rem;
+      }
+
+      .decision-art img {
+        width: 100%;
+        max-height: 245px;
+        object-fit: contain;
+      }
+
+      .decision-art figcaption {
+        padding: 0.55rem 0.8rem 0.7rem;
+        font-size: 0.76rem;
+      }
+
+      .limit-list {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .limit-item {
+        display: grid;
+        grid-template-columns: 1.15rem 1fr;
+        gap: 0.75rem;
+        align-items: start;
+        padding: 0.9rem 1rem;
+        border-radius: 12px;
+        background: var(--paper);
+      }
+
+      .limit-symbol {
+        color: var(--blue-dark);
+        font-weight: 900;
+      }
+
+      .limit-item strong {
+        display: block;
+        margin-bottom: 0.18rem;
+      }
+
+      .limit-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .role-grid {
+        grid-template-columns: repeat(5, 1fr);
+        margin-top: 1.7rem;
+      }
+
+      .role-card {
+        min-height: 11rem;
+        padding: 1rem;
+      }
+
+      .role-card strong {
+        display: block;
+        margin-bottom: 0.55rem;
+      }
+
+      .role-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .extension-line {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.8rem;
+        margin-top: 1.2rem;
+      }
+
+      .extension-step {
+        position: relative;
+        padding: 1rem;
+        border-top: 4px solid var(--blue);
+        border-radius: 12px;
+        background: var(--paper);
+      }
+
+      .extension-step strong {
+        display: block;
+        margin-bottom: 0.3rem;
+      }
+
+      .extension-step p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+
+      .summary-grid {
+        display: grid;
+        grid-template-columns: 0.8fr 1.2fr;
+        gap: 2rem;
+        margin-top: 1.8rem;
+      }
+
+      .summary-block {
+        padding: 1.4rem;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--paper);
+      }
+
+      .summary-block h3 {
+        margin-bottom: 1rem;
+      }
+
+      .summary-workflows {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.7rem;
+      }
+
+      .summary-workflow {
+        padding: 0.8rem;
+        border-radius: 10px;
+        background: #f3f7fb;
+      }
+
+      .summary-workflow strong {
+        display: block;
+        margin-bottom: 0.15rem;
+        font-size: 0.85rem;
+      }
+
+      .summary-workflow span {
+        color: var(--muted);
+        font-size: 0.76rem;
+      }
+
+      .summary-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+        margin-top: 1.2rem;
+      }
+
+      .summary-actions a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.7rem 0.9rem;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: var(--paper);
+        color: var(--ink);
+        font-weight: 780;
+        text-decoration: none;
+      }
+
+      #workflows h2,
+      #ejecucion h2,
+      #objetivo h2 {
+        max-width: none;
+      }
+
+      @media (min-width: 981px) and (max-height: 900px) {
+        .overview-slide .slide-inner {
+          transform: translateY(-0.8rem);
+        }
+
+        .slide {
+          padding: 4.7rem 0 3.6rem;
+        }
+
+        h1 {
+          font-size: clamp(3.8rem, 8vw, 6.6rem);
+        }
+
+        h2 {
+          margin-bottom: 0.65rem;
+          font-size: clamp(2.1rem, 4vw, 3.65rem);
+        }
+
+        .lead {
+          font-size: 1.06rem;
+        }
+
+        .kicker {
+          margin-bottom: 0.4rem;
+        }
+
+        .hero-grid,
+        .split,
+        .illustration-layout {
+          gap: 2rem;
+        }
+
+        .hero-panel {
+          padding: 1.25rem;
+        }
+
+        .prompt-stack {
+          gap: 0.5rem;
+        }
+
+        .prompt-line {
+          padding: 0.65rem 0.8rem;
+        }
+
+        .objective-grid,
+        .workflow-grid,
+        .execution-flow {
+          margin-top: 1rem;
+        }
+
+        .objective-column {
+          padding: 1rem 1.1rem;
+        }
+
+        .art-card img {
+          max-height: 465px;
+          object-fit: contain;
+        }
+
+        .component-grid {
+          gap: 0.55rem;
+        }
+
+        .component-card {
+          padding: 0.65rem 0.75rem;
+        }
+
+        .component-card span {
+          font-size: 0.75rem;
+        }
+
+        .execution-flow {
+          gap: 1.1rem;
+        }
+
+        .flow-step {
+          min-height: 7.5rem;
+          padding: 0.75rem;
+        }
+
+        .flow-step p,
+        .flow-summary {
+          font-size: 0.75rem;
+        }
+
+        .step-number {
+          margin-bottom: 0.55rem;
+        }
+
+        .workflow-grid {
+          gap: 0.65rem;
+        }
+
+        .workflow-card {
+          min-height: 10rem;
+          padding: 0.9rem 1rem;
+        }
+
+        .workflow-card h3 {
+          margin-bottom: 0.25rem;
+        }
+
+        .workflow-card p {
+          margin-bottom: 1.2rem;
+          font-size: 0.82rem;
+        }
+
+        .workflow-number {
+          width: 1.9rem;
+          height: 1.9rem;
+          margin-bottom: 0.45rem;
+          font-size: 0.8rem;
+        }
+
+        .workflow-head {
+          margin-bottom: 0.85rem;
+        }
+
+        .workflow-prompt {
+          margin: -0.3rem 0 0.8rem;
+        }
+
+        .journey-step {
+          min-height: 7rem;
+          padding: 0.75rem 0.65rem;
+        }
+
+        .journey-step p,
+        .note-card p,
+        .qa-step p,
+        .evidence-item span {
+          font-size: 0.72rem;
+        }
+
+        .guardrails,
+        .qa-layout,
+        .release-layout {
+          margin-top: 0.75rem;
+        }
+
+        .qa-column,
+        .release-column {
+          padding: 1rem;
+        }
+
+        .qa-steps {
+          gap: 0.45rem;
+          margin-top: 0.6rem;
+        }
+
+        .release-evidence {
+          gap: 0.5rem;
+          margin-top: 0.6rem;
+        }
+
+        .evidence-item {
+          min-height: 4.7rem;
+          padding: 0.65rem;
+        }
+
+        .example-banner {
+          margin: 0.8rem 0;
+        }
+
+        .example-table th,
+        .example-table td {
+          padding: 0.65rem 0.8rem;
+        }
+
+        .role-grid {
+          margin-top: 0.8rem;
+        }
+
+        .role-card {
+          min-height: 8.5rem;
+          padding: 0.8rem;
+        }
+
+        .extension-line {
+          margin-top: 0.8rem;
+        }
+      }
+
+      .bottom-nav {
+        position: fixed;
+        z-index: 29;
+        right: clamp(1rem, 3vw, 2.5rem);
+        bottom: 1.1rem;
+        display: flex;
+        gap: 0.55rem;
+      }
+
+      .nav-button {
+        display: grid;
+        width: 2.85rem;
+        height: 2.85rem;
+        place-items: center;
+        border-radius: 50%;
+        box-shadow: 0 8px 24px rgb(16 35 63 / 12%);
+        font-size: 1.2rem;
+        font-weight: 900;
+      }
+
+      .nav-button:disabled {
+        opacity: 0.38;
+        cursor: not-allowed;
+      }
+
+      .index-dialog {
+        width: min(42rem, calc(100vw - 2rem));
+        max-height: min(78svh, 48rem);
+        padding: 0;
+        border: 0;
+        border-radius: 20px;
+        background: var(--paper);
+        color: var(--ink);
+        box-shadow: 0 30px 90px rgb(5 22 43 / 28%);
+      }
+
+      .index-dialog::backdrop {
+        background: rgb(16 35 63 / 58%);
+        backdrop-filter: blur(3px);
+      }
+
+      .index-head {
+        position: sticky;
+        top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 1.2rem;
+        border-bottom: 1px solid var(--line);
+        background: var(--paper);
+      }
+
+      .index-head h2 {
+        margin: 0;
+        font-size: 1.35rem;
+        letter-spacing: -0.02em;
+      }
+
+      .index-close {
+        min-width: 2.5rem;
+        min-height: 2.5rem;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: var(--paper);
+        color: var(--ink);
+        cursor: pointer;
+        font-size: 1.1rem;
+      }
+
+      .index-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.65rem;
+        padding: 1rem;
+      }
+
+      .index-link {
+        display: grid;
+        grid-template-columns: 2.1rem 1fr;
+        gap: 0.7rem;
+        align-items: center;
+        padding: 0.8rem;
+        border-radius: 11px;
+        text-align: left;
+      }
+
+      .index-link span:first-child {
+        color: var(--blue-dark);
+        font-size: 0.8rem;
+        font-weight: 900;
+      }
+
+      .index-link span:last-child {
+        font-size: 0.86rem;
+        font-weight: 720;
+      }
+
+      :focus-visible {
+        outline: 3px solid #ef8f00;
+        outline-offset: 3px;
+      }
+
+      @media (max-width: 980px) {
+        :root {
+          --content: min(100% - 32px, 760px);
+        }
+
+        html {
+          scroll-snap-type: none;
+        }
+
+        .hero-grid,
+        .illustration-layout,
+        .limits-layout,
+        .investigation-layout,
+        .qa-layout,
+        .release-layout,
+        .summary-grid,
+        .objective-grid,
+        .decision-layout,
+        .context-intro {
+          grid-template-columns: 1fr;
+        }
+
+        .component-layout {
+          grid-template-columns: 1fr;
+        }
+
+        #componentes .art-card {
+          width: min(100%, 42rem);
+          margin-inline: auto;
+        }
+
+        .context-grid,
+        .role-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .autonomy-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .execution-flow {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .flow-step:nth-child(3)::after {
+          display: none;
+        }
+
+        .journey {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .layer-content,
+        .layer-rules {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .role-card,
+        .context-card {
+          min-height: 0;
+        }
+      }
+
+      @media (max-width: 680px) {
+        :root {
+          --content: calc(100% - 24px);
+          --radius: 16px;
+        }
+
+        .topbar {
+          grid-template-columns: 1fr auto;
+          padding-inline: 0.75rem;
+        }
+
+        .section-name,
+        .counter {
+          display: none;
+        }
+
+        .progress-track {
+          top: 3.43rem;
+        }
+
+        .slide {
+          min-height: auto;
+          padding: 5.4rem 0 5rem;
+        }
+
+        .slide:first-child {
+          min-height: 100svh;
+        }
+
+        h1 {
+          font-size: clamp(3.8rem, 22vw, 6.5rem);
+        }
+
+        h2 {
+          font-size: clamp(2.2rem, 12vw, 3.4rem);
+        }
+
+        .hero-panel {
+          padding: 1.25rem;
+        }
+
+        .context-grid,
+        .component-grid,
+        .workflow-grid,
+        .role-grid,
+        .outcome-grid,
+        .extension-line,
+        .summary-workflows,
+        .guardrails,
+        .release-evidence,
+        .trace,
+        .autonomy-grid,
+        .surface-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .context-result,
+        .example-banner {
+          grid-template-columns: 1fr;
+        }
+
+        .layer-row {
+          grid-template-columns: 1fr;
+        }
+
+        .layer-label {
+          min-height: auto;
+        }
+
+        .layer-content,
+        .layer-rules {
+          grid-template-columns: 1fr;
+        }
+
+        .execution-flow {
+          grid-template-columns: 1fr;
+        }
+
+        .flow-step {
+          min-height: auto;
+        }
+
+        .flow-step:not(:last-child)::after {
+          top: auto;
+          right: 50%;
+          bottom: -1.13rem;
+          transform: translateX(50%) rotate(90deg);
+        }
+
+        .journey {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .workflow-head {
+          grid-template-columns: 1fr;
+          align-items: start;
+        }
+
+        .terminal-state {
+          width: max-content;
+        }
+
+        .bottom-nav {
+          right: 0.75rem;
+          bottom: 0.75rem;
+        }
+
+        .index-list {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+        }
+      }
+
+      @media print {
+        .topbar,
+        .progress-track,
+        .bottom-nav,
+        .skip-link,
+        .index-dialog {
+          display: none !important;
+        }
+
+        .slide {
+          min-height: 100vh;
+          break-after: page;
+          padding: 2rem 0;
+        }
+
+        .slide:nth-child(even) {
+          background: #fff;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Ir al contenido</a>
+
+    <header class="topbar" aria-label="Navegación de la presentación">
+      <a class="brand" href="#inicio" aria-label="Volver al inicio">
+        <span class="brand-mark" aria-hidden="true">QDD</span>
+        <span>QDD Sky</span>
+      </a>
+      <div class="section-name" id="section-name" aria-live="polite">QDD Sky</div>
+      <div class="top-actions">
+        <span class="counter" id="counter" aria-label="Pantalla actual">1 / 14</span>
+        <button
+          class="icon-button"
+          id="open-index"
+          type="button"
+          aria-haspopup="dialog"
+          aria-controls="index-dialog"
+          aria-expanded="false"
+        >
+          Índice
+        </button>
+      </div>
+    </header>
+    <div class="progress-track" aria-hidden="true">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <main id="contenido" tabindex="-1">
+      <section class="slide" id="inicio" data-title="QDD Sky" aria-labelledby="titulo-principal">
+        <div class="slide-inner hero-grid">
+          <div>
+            <p class="kicker">Presentación</p>
+            <h1 id="titulo-principal">QDD Sky</h1>
+            <p class="lead">
+              Una estructura operativa para que los agentes de IA trabajen con el contexto, las
+              reglas, las herramientas y los workflows de Sky.
+            </p>
+            <div class="keyboard-help" aria-label="Atajos de teclado">
+              <kbd>←</kbd><kbd>→</kbd><span>navegar</span>
+              <kbd>Home</kbd><kbd>End</kbd><span>inicio y cierre</span>
+              <kbd>I</kbd><span>índice</span>
+            </div>
+          </div>
+          <aside class="hero-panel" aria-label="Ejemplos de pedidos directos">
+            <div class="prompt-stack">
+              <div class="prompt-line"><code>Resuelve VC-1303.</code></div>
+              <div class="prompt-line"><code>Me reportan este error en Stage. Investiga qué ocurre.</code></div>
+              <div class="prompt-line"><code>Valida VC-1303 en QA.</code></div>
+              <div class="prompt-line"><code>Prepara la release v2.4.0.</code></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="slide overview-slide" id="que-es" data-title="Qué es QDD Sky" aria-labelledby="titulo-que-es">
+        <div class="slide-inner">
+          <p class="kicker">01 — Contexto</p>
+          <h2 id="titulo-que-es">Qué es QDD Sky</h2>
+          <p class="definition">
+            Es una capa operativa —también llamada agent harness— que se instala en un proyecto y
+            organiza lo que el agente de IA necesita para trabajar en Sky.
+          </p>
+          <div class="context-intro">
+            <article>
+              <h3>1. Modelo</h3>
+              <p>
+                Razona y genera respuestas. Por ejemplo, <code>GPT-5.6 Sol</code> o
+                <code>Claude Opus</code>.
+              </p>
+            </article>
+            <article>
+              <h3>2. Agente</h3>
+              <p>
+                Utiliza el modelo y puede leer archivos, ejecutar comandos y usar herramientas.
+                Por ejemplo, <code>Codex</code> o <code>Claude Code</code>.
+              </p>
+            </article>
+            <article>
+              <h3>3. Harness</h3>
+              <p>
+                QDD Sky especializa al agente con reglas, conocimiento, automatizaciones y
+                workflows para trabajar en Sky.
+              </p>
+            </article>
+          </div>
+          <div class="context-result">
+            <strong>Uso actual</strong>
+            <p>Resolver iniciativas, investigar comportamientos, validar cambios y preparar entregas.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide overview-slide" id="entorno" data-title="Dónde opera QDD Sky" aria-labelledby="titulo-entorno">
+        <div class="slide-inner">
+          <p class="kicker">02 — Entorno de operación</p>
+          <h2 id="titulo-entorno">Dónde opera QDD Sky</h2>
+          <p class="lead">
+            QDD trabaja sobre los sistemas, herramientas y ambientes que Sky habilita para la persona o el agente. Su
+            alcance real depende de la infraestructura, la conectividad, las herramientas y los
+            permisos disponibles.
+          </p>
+          <div class="surface-grid">
+            <article class="surface-card">
+              <strong>Fuentes de contexto</strong>
+              <p>Jira, GitLab, repositorios, documentación y conocimiento instalado en el proyecto.</p>
+            </article>
+            <article class="surface-card">
+              <strong>Dónde puede ejecutar</strong>
+              <p>Archivos locales, scripts, pruebas, pipelines, ambientes y cargas de Kubernetes.</p>
+            </article>
+            <article class="surface-card">
+              <strong>Evidencia operativa</strong>
+              <p>Logs, métricas, trazas, eventos, configuración y estado observable de los sistemas.</p>
+            </article>
+            <article class="surface-card">
+              <strong>Accesos disponibles</strong>
+              <p>La identidad, las credenciales, la red y los permisos determinan qué puede consultar o ejecutar.</p>
+            </article>
+          </div>
+          <div class="context-result">
+            <strong>Qué aporta QDD</strong>
+            <p>Organiza cómo utilizar esos recursos y cómo continuar cuando falta acceso, evidencia o una decisión.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide overview-slide" id="objetivo" data-title="Objetivo de QDD" aria-labelledby="titulo-objetivo">
+        <div class="slide-inner">
+          <p class="kicker">03 — Objetivo</p>
+          <h2 id="titulo-objetivo">Hablar directamente con la IA</h2>
+          <p class="lead">
+            El usuario indica el resultado que necesita. La estructura instalada se encarga de
+            resolver cómo llegar hasta ese resultado.
+          </p>
+          <div class="objective-grid">
+            <article class="objective-column">
+              <h3>El usuario aporta</h3>
+              <ul class="plain-list">
+                <li>El resultado que necesita.</li>
+                <li>El ticket o identificador del caso, como un PNR, registryId o código de reserva.</li>
+                <li>El ambiente o alcance cuando no puede inferirse del pedido o del ticket.</li>
+                <li>Una condición excepcional del pedido que todavía no esté documentada.</li>
+                <li>Las decisiones que QDD solicita cuando necesita una definición del usuario.</li>
+              </ul>
+            </article>
+            <article class="objective-column is-qdd">
+              <h3>QDD resuelve</h3>
+              <ul class="check-list">
+                <li>El workflow que corresponde al pedido.</li>
+                <li>Las reglas, restricciones y conocimiento ya definidos en Sky y en el proyecto.</li>
+                <li>La información adicional que necesita buscar.</li>
+                <li>Las instrucciones y herramientas que debe utilizar y en qué orden.</li>
+                <li>Las comprobaciones necesarias y el estado alcanzado.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide overview-slide" id="componentes" data-title="Componentes de QDD" aria-labelledby="titulo-componentes">
+        <div class="slide-inner">
+          <div class="overview-heading">
+            <p class="kicker">04 — Componentes</p>
+            <h2 id="titulo-componentes">Qué contiene QDD</h2>
+          </div>
+          <div class="component-layout">
+            <figure class="art-card">
+              <img
+                src="assets/qdd-sky-demo-illustrations/01-componentes-a-workflow.png"
+                alt="Xiaohei opera un telar que combina reglas, conocimiento, skills, scripts y agentes en un workflow."
+                width="1672"
+                height="941"
+              />
+              <figcaption>Los componentes se combinan según el resultado solicitado.</figcaption>
+            </figure>
+            <div class="component-grid">
+              <article class="component-card">
+                <strong>Reglas</strong>
+                <span>Definen qué puede hacer QDD, qué debe comprobar y cuándo necesita autorización.</span>
+              </article>
+              <article class="component-card">
+                <strong>Conocimiento</strong>
+                <span>Información sobre los sistemas, sus relaciones y las formas de trabajo del equipo.</span>
+              </article>
+              <article class="component-card">
+                <strong>Skills</strong>
+                <span>Instrucciones para ejecutar una tarea específica o un workflow completo.</span>
+              </article>
+              <article class="component-card">
+                <strong>Scripts</strong>
+                <span>Automatizan tareas que deben ejecutarse siempre de la misma manera.</span>
+              </article>
+              <article class="component-card">
+                <strong>Agentes especializados</strong>
+                <span>Realizan revisiones independientes en etapas definidas del proceso.</span>
+              </article>
+              <article class="component-card">
+                <strong>Workflows</strong>
+                <span>Encadenan varias tareas hasta alcanzar un resultado definido.</span>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide overview-slide" id="workflows" data-title="Workflows disponibles" aria-labelledby="titulo-workflows">
+        <div class="slide-inner">
+          <p class="kicker">05 — Workflows</p>
+          <h2 id="titulo-workflows">Workflows disponibles</h2>
+          <p class="lead">Un resultado completo utiliza un workflow. Una tarea puntual utiliza una instrucción específica. El código de cada tarjeta indica el estado que puede devolver.</p>
+          <nav class="workflow-grid" aria-label="Workflows de QDD">
+            <a class="workflow-card" href="#ticket">
+              <span class="workflow-number">1</span>
+              <h3>Resolver una iniciativa</h3>
+              <span class="prompt-example">Resuelve VC-1303.</span>
+              <span class="workflow-state">MR_READY</span>
+            </a>
+            <a class="workflow-card" href="#investigacion">
+              <span class="workflow-number">2</span>
+              <h3>Explorar o investigar</h3>
+              <span class="prompt-example">Investiga este error en Stage.</span>
+              <span class="workflow-state">INVESTIGATED / BLOCKED</span>
+            </a>
+            <a class="workflow-card" href="#qa">
+              <span class="workflow-number">3</span>
+              <h3>Validar un cambio</h3>
+              <span class="prompt-example">Valida VC-1303 en QA.</span>
+              <span class="workflow-state">PASS / FAIL / BLOCKED</span>
+            </a>
+            <a class="workflow-card" href="#documentacion">
+              <span class="workflow-number">4</span>
+              <h3>Preparar una entrega</h3>
+              <span class="prompt-example">Prepara la release v2.4.0.</span>
+              <span class="workflow-state">RELEASE_READY / TAG_PUBLISHED</span>
+            </a>
+          </nav>
+        </div>
+      </section>
+
+      <section class="slide" id="ticket" data-title="Workflow: resolver una iniciativa" aria-labelledby="titulo-ticket">
+        <div class="slide-inner">
+          <div class="workflow-head">
+            <div>
+              <div class="workflow-identity">
+                <span class="workflow-badge">WORKFLOW 1 / 4</span>
+                <code>sky-take-ticket</code>
+              </div>
+              <h2 id="titulo-ticket">Resolver una iniciativa</h2>
+            </div>
+            <span class="terminal-state">MR_READY</span>
+          </div>
+          <p class="workflow-prompt"><span>Pedido</span><strong>“Resuelve VC-1303.”</strong></p>
+          <div class="journey" aria-label="Etapas para resolver una iniciativa">
+            <article class="journey-step"><small>01</small><strong>Leer y precisar el pedido</strong><p>Confirmar alcance, criterios, dudas y riesgo.</p></article>
+            <article class="journey-step"><small>02</small><strong>Identificar el código afectado</strong><p>Encontrar repositorios, componentes, archivos e historial.</p></article>
+            <article class="journey-step"><small>03</small><strong>Comprobar cómo funciona hoy</strong><p>Seguir los datos y definir qué debe cambiar.</p></article>
+            <article class="journey-step"><small>04</small><strong>Aplicar el cambio</strong><p>Modificar solo el código y la configuración necesarios.</p></article>
+            <article class="journey-step"><small>05</small><strong>Revisar y probar el cambio</strong><p>Revisar el conjunto y ejecutar las validaciones.</p></article>
+            <article class="journey-step"><small>06</small><strong>Crear y verificar el MR</strong><p>Publicar la rama y comprobar el MR resultante.</p></article>
+          </div>
+          <div class="guardrails">
+            <article class="note-card">
+              <strong>Profundidad según el riesgo</strong>
+              <p>Ajusta la exploración y las verificaciones a la complejidad y los componentes afectados.</p>
+            </article>
+            <article class="note-card">
+              <strong>Datos compartidos entre sistemas</strong>
+              <p>Verifica quién produce el dato, quién lo utiliza y qué resultado genera.</p>
+            </article>
+            <article class="note-card">
+              <strong>Entrega</strong>
+              <p>Deja la rama publicada, el MR creado y las verificaciones realizadas sobre el cambio.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="investigacion" data-title="Workflow: explorar o investigar" aria-labelledby="titulo-investigacion">
+        <div class="slide-inner">
+          <div class="workflow-head">
+            <div>
+              <div class="workflow-identity">
+                <span class="workflow-badge">WORKFLOW 2 / 4</span>
+                <code>sky-investigate-issue</code>
+              </div>
+              <h2 id="titulo-investigacion">Explorar o investigar</h2>
+            </div>
+            <span class="terminal-state">INVESTIGATED / BLOCKED</span>
+          </div>
+          <p class="workflow-prompt"><span>Pedido</span><strong>“Me reportan este error en Stage. Investiga qué ocurre.”</strong></p>
+          <div class="investigation-layout">
+            <div>
+              <h3>Tres tipos de pedido</h3>
+              <div class="starts">
+                <article class="start-card"><strong>Explorar un flujo</strong><p>Identificar qué componentes participan y cómo circulan los datos.</p></article>
+                <article class="start-card"><strong>Analizar un comportamiento</strong><p>Comparar lo observado con el contrato y el historial.</p></article>
+                <article class="start-card"><strong>Investigar un error</strong><p>Seguir el mismo caso entre servicios hasta encontrar dónde falla.</p></article>
+              </div>
+            </div>
+            <div>
+              <h3>Cómo sigue el caso</h3>
+              <div class="trace" aria-label="Trazabilidad de un flujo">
+                <article class="trace-node"><strong>Entrada</strong><p>Pedido, correlador, evento o acción inicial.</p></article>
+                <article class="trace-node"><strong>Productor</strong><p>Quién crea el dato o dispara el comportamiento.</p></article>
+                <article class="trace-node"><strong>Comunicación</strong><p>API, mensaje, configuración o integración utilizada.</p></article>
+                <article class="trace-node"><strong>Consumidor</strong><p>Cómo interpreta y transforma el dato.</p></article>
+                <article class="trace-node"><strong>Persistencia</strong><p>Dónde se guarda el dato y con qué identificador se puede buscar.</p></article>
+                <article class="trace-node is-boundary"><strong>Resultado observado</strong><p>Resultado visible y último punto que se pudo verificar.</p></article>
+                <article class="trace-result">
+                  <strong>Salida</strong>
+                  <p>Explicación respaldada por evidencia, recorrido, impacto y siguiente acción recomendada.</p>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="qa" data-title="Workflow: validar un cambio" aria-labelledby="titulo-qa">
+        <div class="slide-inner">
+          <div class="workflow-head">
+            <div>
+              <div class="workflow-identity">
+                <span class="workflow-badge">WORKFLOW 3 / 4</span>
+                <code>sky-verify-change</code>
+              </div>
+              <h2 id="titulo-qa">Validar un cambio</h2>
+            </div>
+            <span class="terminal-state">PASS / FAIL / BLOCKED</span>
+          </div>
+          <p class="workflow-prompt"><span>Pedido</span><strong>“Valida VC-1303 en QA.”</strong></p>
+          <div class="qa-layout">
+            <article class="qa-column">
+              <h3>Ejecución</h3>
+              <div class="qa-steps">
+                <div class="qa-step"><span class="qa-step-number">1</span><div><strong>Confirmar qué versión se validará</strong><p>Identificar el commit, tag, imagen o versión exacta.</p></div></div>
+                <div class="qa-step"><span class="qa-step-number">2</span><div><strong>Confirmar la versión desplegada</strong><p>Comprobar que el ambiente ejecuta la versión esperada.</p></div></div>
+                <div class="qa-step"><span class="qa-step-number">3</span><div><strong>Definir las pruebas necesarias</strong><p>Unidad, integración, API, interfaz, eventos, persistencia o ejecución en el ambiente.</p></div></div>
+                <div class="qa-step"><span class="qa-step-number">4</span><div><strong>Ejecutar y reunir evidencia</strong><p>Observar el resultado real y guardar la evidencia.</p></div></div>
+                <div class="qa-step"><span class="qa-step-number">5</span><div><strong>Determinar el resultado</strong><p>Clasificar la evidencia y establecer el estado de la validación.</p></div></div>
+              </div>
+            </article>
+            <article class="qa-column">
+              <h3>Qué se registra por separado</h3>
+              <div class="dimension">
+                <strong>Ejecución</strong>
+                <div class="state-tags"><span class="state-tag">PASS</span><span class="state-tag">FAIL</span><span class="state-tag">BLOCKED</span><span class="state-tag">NOT_RUN</span></div>
+              </div>
+              <div class="dimension">
+                <strong>Evidencia</strong>
+                <div class="state-tags"><span class="state-tag">CONCLUYENTE</span><span class="state-tag">PARCIAL</span><span class="state-tag">NO CONCLUYENTE</span><span class="state-tag">NO EVALUABLE</span></div>
+              </div>
+              <div class="authority-note">
+                <strong>Resultado de la validación</strong>
+                <p>Registra por separado qué se ejecutó y qué demuestra la evidencia para entregar una conclusión verificable.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="documentacion" data-title="Workflow: preparar una entrega" aria-labelledby="titulo-documentacion">
+        <div class="slide-inner">
+          <div class="workflow-head">
+            <div>
+              <div class="workflow-identity">
+                <span class="workflow-badge">WORKFLOW 4 / 4</span>
+                <code>sky-prepare-release</code>
+              </div>
+              <h2 id="titulo-documentacion">Preparar una entrega</h2>
+            </div>
+            <span class="terminal-state">RELEASE_READY / TAG_PUBLISHED</span>
+          </div>
+          <p class="workflow-prompt"><span>Pedido</span><strong>“Prepara la release v2.4.0 con estos tickets verificados.”</strong></p>
+          <div class="release-layout">
+            <article class="release-column">
+              <h3>Información que verifica y compara</h3>
+              <div class="release-evidence">
+                <div class="evidence-item"><strong>Versiones</strong><span>Versión del paquete, historial de cambios y artefacto que se desplegará.</span></div>
+                <div class="evidence-item"><strong>Ramas</strong><span>Rama base, rama de release y cambios incluidos en cada una.</span></div>
+                <div class="evidence-item"><strong>Tags</strong><span>Commit al que apunta cada tag y su relación con la rama.</span></div>
+                <div class="evidence-item"><strong>MRs</strong><span>Contenido, estado y pipeline asociado.</span></div>
+                <div class="evidence-item"><strong>Pipelines</strong><span>Resultado correspondiente a la versión que se entregará.</span></div>
+                <div class="evidence-item"><strong>Evidencias</strong><span>Validaciones asociadas a los cambios incluidos.</span></div>
+              </div>
+            </article>
+            <article class="release-column">
+              <h3>Entregables posibles</h3>
+              <ul class="check-list">
+                <li>Notas de release respaldadas por Jira y Git.</li>
+                <li>Documento de despliegue para transferir el trabajo a otro equipo.</li>
+                <li>Evidencias QA en el formato acordado.</li>
+                <li>Pasos de Jira para el pase.</li>
+                <li>Verificación de artefactos y relación entre tags, commits y ramas.</li>
+              </ul>
+              <div class="authority-note">
+                <strong>Resultado de la preparación</strong>
+                <p>Comprueba que los artefactos correspondan a la misma entrega y genera la documentación necesaria para continuar el pase.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide overview-slide" id="ejecucion" data-title="Ejemplo de ejecución" aria-labelledby="titulo-ejecucion">
+        <div class="slide-inner">
+          <p class="kicker">06 — Ejemplo de ejecución</p>
+          <h2 id="titulo-ejecucion">“Resuelve VC-1303”</h2>
+          <p class="lead">El pedido activa el workflow de resolución de una iniciativa.</p>
+          <div class="execution-flow" aria-label="Etapas del pedido Resuelve VC-1303">
+            <button
+              class="flow-step execution-detail-trigger"
+              type="button"
+              aria-expanded="true"
+              aria-controls="execution-detail"
+              data-detail-key="initiative"
+            >
+              <span class="step-number">01</span>
+              <strong>Leer y precisar el pedido</strong>
+              <span class="flow-summary">Consultar Jira y confirmar alcance, criterios y dudas relevantes.</span>
+              <span class="flow-hint">Ver detalle</span>
+            </button>
+            <button
+              class="flow-step execution-detail-trigger"
+              type="button"
+              aria-expanded="false"
+              aria-controls="execution-detail"
+              data-detail-key="repositories"
+            >
+              <span class="step-number">02</span>
+              <strong>Identificar el código afectado</strong>
+              <span class="flow-summary">Confirmar qué repositorios, componentes y archivos se deben modificar.</span>
+              <span class="flow-hint">Ver detalle</span>
+            </button>
+            <button
+              class="flow-step execution-detail-trigger"
+              type="button"
+              aria-expanded="false"
+              aria-controls="execution-detail"
+              data-detail-key="flow"
+            >
+              <span class="step-number">03</span>
+              <strong>Comprobar cómo funciona hoy</strong>
+              <span class="flow-summary">Seguir los datos entre componentes y confirmar qué debe cambiar.</span>
+              <span class="flow-hint">Ver detalle</span>
+            </button>
+            <button
+              class="flow-step execution-detail-trigger"
+              type="button"
+              aria-expanded="false"
+              aria-controls="execution-detail"
+              data-detail-key="implementation"
+            >
+              <span class="step-number">04</span>
+              <strong>Aplicar el cambio</strong>
+              <span class="flow-summary">Modificar únicamente el código y la configuración necesarios.</span>
+              <span class="flow-hint">Ver detalle</span>
+            </button>
+            <button
+              class="flow-step execution-detail-trigger"
+              type="button"
+              aria-expanded="false"
+              aria-controls="execution-detail"
+              data-detail-key="validation"
+            >
+              <span class="step-number">05</span>
+              <strong>Revisar y probar el cambio</strong>
+              <span class="flow-summary">Revisar todos los archivos modificados y ejecutar las validaciones.</span>
+              <span class="flow-hint">Ver detalle</span>
+            </button>
+            <button
+              class="flow-step execution-detail-trigger"
+              type="button"
+              aria-expanded="false"
+              aria-controls="execution-detail"
+              data-detail-key="mr"
+            >
+              <span class="step-number">06</span>
+              <strong>Crear y verificar el MR</strong>
+              <span class="flow-summary">Crear los commits, publicar la rama y comprobar el MR resultante.</span>
+              <span class="flow-hint">Ver detalle</span>
+            </button>
+          </div>
+          <div class="context-result execution-detail" id="execution-detail" aria-live="polite">
+            <strong id="execution-detail-title">Leer y precisar el pedido</strong>
+            <ol id="execution-detail-list">
+              <li>Busca el ticket en Jira y abre el material relacionado.</li>
+              <li>Lee descripción, DoR (Definition of Ready), criterios de aceptación, comentarios y enlaces.</li>
+              <li>Separa requisitos confirmados, supuestos, contradicciones y datos pendientes.</li>
+              <li>Determina la complejidad e identifica los repositorios e integraciones que pueden verse afectados.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide overview-slide" id="autonomia" data-title="Qué hace sin intervención" aria-labelledby="titulo-autonomia">
+        <div class="slide-inner">
+          <p class="kicker">07 — Autonomía actual</p>
+          <h2 id="titulo-autonomia">Qué hace sin intervención</h2>
+          <p class="lead">QDD continúa mientras las acciones sean necesarias para el pedido, estén autorizadas y puedan verificarse.</p>
+          <div class="autonomy-grid">
+            <article class="autonomy-card">
+              <strong>Reúne contexto</strong>
+              <p>Consulta tickets, código, historial, documentación y evidencia disponible sin pedir que el usuario repita esa información.</p>
+            </article>
+            <article class="autonomy-card">
+              <strong>Elige qué hacer a continuación</strong>
+              <p>Selecciona qué instrucciones y herramientas utilizar y en qué orden.</p>
+            </article>
+            <article class="autonomy-card">
+              <strong>Ejecuta lo incluido en el pedido</strong>
+              <p>Realiza acciones rutinarias y reversibles dentro del alcance, como explorar, implementar, probar y revisar.</p>
+            </article>
+            <article class="autonomy-card">
+              <strong>Revisa y corrige su trabajo</strong>
+              <p>Comprueba el resultado, ejecuta las pruebas necesarias y corrige los problemas encontrados.</p>
+            </article>
+          </div>
+          <div class="context-result">
+            <strong>Trabaja hasta obtener</strong>
+            <p>Un resultado comprobable, una decisión que debe tomar el usuario o un impedimento explicado con evidencia.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide overview-slide" id="limites" data-title="Cuándo necesita una respuesta" aria-labelledby="titulo-limites">
+        <div class="slide-inner">
+          <p class="kicker">08 — Cuándo interviene el usuario</p>
+          <h2 id="titulo-limites">Cuándo necesita una respuesta</h2>
+          <div class="decision-layout">
+            <div class="limit-list">
+              <article class="limit-item"><span class="limit-symbol">■</span><div><strong>El usuario debe elegir una opción</strong><p>Las alternativas cambian el alcance, el comportamiento esperado o el resultado que se debe entregar.</p></div></article>
+              <article class="limit-item"><span class="limit-symbol">!</span><div><strong>Falta información o acceso necesario</strong><p>Solicita el permiso, la evidencia o el dato indispensable para continuar.</p></div></article>
+              <article class="limit-item"><span class="limit-symbol">↗</span><div><strong>Debe realizar una acción externa no incluida en el pedido</strong><p>Solicita confirmación antes de una escritura externa o una operación irreversible que no estaba incluida en la solicitud original.</p></div></article>
+              <article class="limit-item"><span class="limit-symbol">×</span><div><strong>Debe realizar una acción sensible</strong><p>Solicita autorización para fusionar un MR, operar en PROD, realizar pagos, reiniciar servicios, revertir cambios, reenviar eventos o publicar información.</p></div></article>
+            </div>
+            <figure class="art-card decision-art">
+              <img
+                src="assets/qdd-sky-demo-illustrations/02-checkpoint-permisos-evidencia.png"
+                alt="Xiaohei detiene un pedido ante un checkpoint que requiere permiso y evidencia."
+                width="1672"
+                height="941"
+              />
+              <figcaption>El workflow solicita una respuesta cuando necesita una decisión, un requisito o una autorización.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Navegación anterior y siguiente">
+      <button class="nav-button" id="previous" type="button" aria-label="Pantalla anterior">←</button>
+      <button class="nav-button" id="next" type="button" aria-label="Pantalla siguiente">→</button>
+    </nav>
+
+    <dialog class="index-dialog" id="index-dialog" aria-labelledby="index-title">
+      <div class="index-head">
+        <h2 id="index-title">Índice</h2>
+        <button class="index-close" id="close-index" type="button" aria-label="Cerrar índice">×</button>
+      </div>
+      <div class="index-list" id="index-list"></div>
+    </dialog>
+
+    <script>
+      (() => {
+        const slides = [...document.querySelectorAll('.slide')];
+        const counter = document.getElementById('counter');
+        const sectionName = document.getElementById('section-name');
+        const progressBar = document.getElementById('progress-bar');
+        const previousButton = document.getElementById('previous');
+        const nextButton = document.getElementById('next');
+        const indexDialog = document.getElementById('index-dialog');
+        const openIndexButton = document.getElementById('open-index');
+        const closeIndexButton = document.getElementById('close-index');
+        const indexList = document.getElementById('index-list');
+        const executionDetailTriggers = [
+          ...document.querySelectorAll('.execution-detail-trigger'),
+        ];
+        const executionDetailTitle = document.getElementById('execution-detail-title');
+        const executionDetailList = document.getElementById('execution-detail-list');
+        const executionDetails = {
+          initiative: {
+            title: 'Leer y precisar el pedido',
+            steps: [
+              'Busca el ticket en Jira y abre el material relacionado.',
+              'Lee descripción, DoR, criterios de aceptación, comentarios y enlaces.',
+              'Separa requisitos confirmados, supuestos, contradicciones y datos pendientes.',
+              'Determina la complejidad e identifica los repositorios e integraciones que pueden verse afectados.',
+            ],
+          },
+          repositories: {
+            title: 'Identificar el código afectado',
+            steps: [
+              'Busca en el espacio de trabajo los repositorios que pueden contener el cambio.',
+              'Confirma en GitLab qué repositorio mantiene cada componente.',
+              'Lee las reglas del repositorio, la rama actual, el estado local y el historial relevante.',
+              'Identifica los archivos que deben cambiar y los servicios que utilizan esos datos.',
+            ],
+          },
+          flow: {
+            title: 'Comprobar cómo funciona hoy',
+            steps: [
+              'Reconstruye el comportamiento actual con el código, la configuración y la evidencia disponible.',
+              'Sigue el dato desde donde se genera hasta donde se procesa, se guarda y produce un resultado visible.',
+              'Comprueba que los componentes que envían y reciben los datos utilizan formatos compatibles.',
+              'Define el orden de cambios y las verificaciones necesarias.',
+            ],
+          },
+          implementation: {
+            title: 'Aplicar el cambio',
+            steps: [
+              'Crea o reutiliza las ramas asociadas al ticket.',
+              'Aplica el cambio mínimo coherente siguiendo la arquitectura del repositorio.',
+              'Actualiza los componentes relacionados y la configuración en el orden definido.',
+              'Agrega o ajusta las pruebas relacionadas mientras preserva el trabajo existente.',
+            ],
+          },
+          validation: {
+            title: 'Revisar y probar el cambio',
+            steps: [
+              'Revisa que todos los archivos modificados pertenezcan al ticket y que no incluyan secretos ni cambios accidentales.',
+              'Corrige los problemas encontrados durante la revisión.',
+              'Ejecuta compilación, comprobaciones de tipos o formato, pruebas relacionadas y verificaciones de integraciones.',
+              'Registra qué validaciones pasaron, fallaron o no pudieron ejecutarse.',
+            ],
+          },
+          mr: {
+            title: 'Crear y verificar el MR',
+            steps: [
+              'Confirma que cada rama contiene únicamente los cambios correspondientes al ticket.',
+              'Crea los commits y publica las ramas en GitLab.',
+              'Busca un MR abierto para la misma rama y evita crear duplicados.',
+              'Crea o recupera el MR y verifica su título, ramas, commits, URL y pipeline.',
+            ],
+          },
+        };
+        let activeIndex = 0;
+
+        const clampIndex = (index) => Math.max(0, Math.min(slides.length - 1, index));
+
+        const updateStatus = (index, updateHash = false) => {
+          activeIndex = clampIndex(index);
+          const slide = slides[activeIndex];
+          const title = slide.dataset.title || `Pantalla ${activeIndex + 1}`;
+          counter.textContent = `${activeIndex + 1} / ${slides.length}`;
+          counter.setAttribute('aria-label', `Pantalla ${activeIndex + 1} de ${slides.length}`);
+          sectionName.textContent = title;
+          progressBar.style.width = `${((activeIndex + 1) / slides.length) * 100}%`;
+          previousButton.disabled = activeIndex === 0;
+          nextButton.disabled = activeIndex === slides.length - 1;
+          if (updateHash && window.location.hash !== `#${slide.id}`) {
+            history.replaceState(null, '', `#${slide.id}`);
+          }
+        };
+
+        const goTo = (index, focusSection = false) => {
+          const nextIndex = clampIndex(index);
+          const slide = slides[nextIndex];
+          const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          const behavior = reducedMotion || Math.abs(nextIndex - activeIndex) > 1 ? 'auto' : 'smooth';
+          slide.scrollIntoView({ behavior, block: 'start' });
+          updateStatus(nextIndex, true);
+          if (focusSection) {
+            window.setTimeout(
+              () => slide.focus({ preventScroll: true }),
+              behavior === 'smooth' ? 240 : 0,
+            );
+          }
+        };
+
+        slides.forEach((slide) => {
+          slide.setAttribute('tabindex', '-1');
+        });
+
+        executionDetailTriggers.forEach((trigger) => {
+          trigger.addEventListener('click', () => {
+            const detail = executionDetails[trigger.dataset.detailKey];
+            executionDetailTriggers.forEach((item) => {
+              item.setAttribute('aria-expanded', String(item === trigger));
+            });
+            executionDetailTitle.textContent = detail.title;
+            const items = detail.steps.map((step) => {
+              const item = document.createElement('li');
+              item.textContent = step;
+              return item;
+            });
+            executionDetailList.replaceChildren(...items);
+          });
+        });
+
+        slides.forEach((slide, index) => {
+          const button = document.createElement('button');
+          button.className = 'index-link';
+          button.type = 'button';
+          button.innerHTML = `<span>${String(index + 1).padStart(2, '0')}</span><span>${slide.dataset.title}</span>`;
+          button.addEventListener('click', () => {
+            indexDialog.close();
+            goTo(index, true);
+          });
+          indexList.appendChild(button);
+        });
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            const visible = entries
+              .filter((entry) => entry.isIntersecting)
+              .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+            if (!visible) return;
+            const index = slides.indexOf(visible.target);
+            updateStatus(index, true);
+          },
+          { threshold: [0.45, 0.65, 0.85] },
+        );
+
+        slides.forEach((slide) => observer.observe(slide));
+
+        previousButton.addEventListener('click', () => goTo(activeIndex - 1, true));
+        nextButton.addEventListener('click', () => goTo(activeIndex + 1, true));
+        const openIndex = () => {
+          document.body.classList.add('index-open');
+          openIndexButton.setAttribute('aria-expanded', 'true');
+          indexDialog.showModal();
+        };
+
+        openIndexButton.addEventListener('click', openIndex);
+        closeIndexButton.addEventListener('click', () => indexDialog.close());
+
+        indexDialog.addEventListener('click', (event) => {
+          if (event.target === indexDialog) indexDialog.close();
+        });
+
+        indexDialog.addEventListener('close', () => {
+          document.body.classList.remove('index-open');
+          openIndexButton.setAttribute('aria-expanded', 'false');
+          openIndexButton.focus();
+        });
+
+        indexDialog.addEventListener('cancel', () => {
+          document.body.classList.remove('index-open');
+          openIndexButton.setAttribute('aria-expanded', 'false');
+        });
+
+        const isInteractive = (target) =>
+          target instanceof HTMLElement &&
+          Boolean(target.closest('a, button, input, textarea, select, summary, dialog'));
+
+        document.addEventListener('keydown', (event) => {
+          if (indexDialog.open) return;
+          if (event.key.toLowerCase() === 'i') {
+            event.preventDefault();
+            openIndex();
+            return;
+          }
+          if (isInteractive(event.target)) return;
+          const nextKeys = ['ArrowRight', 'ArrowDown', 'PageDown', ' '];
+          const previousKeys = ['ArrowLeft', 'ArrowUp', 'PageUp'];
+          if (nextKeys.includes(event.key)) {
+            event.preventDefault();
+            goTo(activeIndex + 1, true);
+          } else if (previousKeys.includes(event.key)) {
+            event.preventDefault();
+            goTo(activeIndex - 1, true);
+          } else if (event.key === 'Home') {
+            event.preventDefault();
+            goTo(0, true);
+          } else if (event.key === 'End') {
+            event.preventDefault();
+            goTo(slides.length - 1, true);
+          }
+        });
+
+        const hashIndex = slides.findIndex((slide) => `#${slide.id}` === window.location.hash);
+        updateStatus(hashIndex >= 0 ? hashIndex : 0);
+      })();
+    </script>
+  </body>
+</html>

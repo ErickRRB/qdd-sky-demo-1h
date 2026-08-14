@@ -1,0 +1,9 @@
+site:
+  title: QDD Sky Demo
+  slug: qdd-sky-demo-1h
+repo: ErickRRB/qdd-sky-demo-1h
+pages_url: https://ErickRRB.github.io/qdd-sky-demo-1h/
+source_html: /Users/erick/Sky/html-docs/qdd-sky-demo-1h/index.html
+notes:
+  - Presentación HTML estática con navegación por teclado.
+  - Los assets requeridos se encuentran dentro de la carpeta assets.
