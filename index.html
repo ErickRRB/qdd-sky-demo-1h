@@ -12,7 +12,7 @@
       :root {
         color-scheme: light;
         --ink: #10233f;
-        --muted: #53647c;
+        --muted: #5f6b78;
         --line: #d8e1ec;
         --paper: #ffffff;
         --canvas: #f3f7fb;
@@ -377,22 +377,28 @@
       }
 
       .context-intro article {
-        padding: 1.25rem 1.35rem;
-        border: 1px solid var(--line);
+        padding: 1.1rem 1.2rem;
+        border: 1px solid #e1e6eb;
         border-radius: 18px;
-        background: var(--paper);
+        background: #f7f8fa;
       }
 
       .context-intro h3 {
-        margin-bottom: 0.8rem;
+        margin-bottom: 0.65rem;
+        color: #566270;
+        font-size: clamp(0.98rem, 1.5vw, 1.16rem);
+        font-weight: 740;
       }
 
       .context-intro p {
         margin: 0;
-        color: var(--muted);
+        color: #68737f;
+        font-size: 0.9rem;
       }
 
       .context-intro code {
+        background: #eceff2;
+        color: #586571;
         font-size: 0.82rem;
       }
 
@@ -550,7 +556,7 @@
 
       .prompt-ideas-grid {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 0.8rem;
         margin-top: 1.35rem;
       }
@@ -1520,54 +1526,75 @@
         font-size: 0.88rem;
       }
 
-      .decision-layout {
+      .independence-grid {
         display: grid;
-        grid-template-columns: minmax(0, 1.3fr) minmax(18rem, 0.7fr);
-        gap: 1.5rem;
-        align-items: center;
-        margin-top: 1.3rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.2rem;
+        margin-top: 1.5rem;
       }
 
-      .decision-art img {
-        width: 100%;
-        max-height: 245px;
-        object-fit: contain;
-      }
-
-      .decision-art figcaption {
-        padding: 0.55rem 0.8rem 0.7rem;
-        font-size: 0.76rem;
-      }
-
-      .limit-list {
-        display: grid;
-        gap: 0.75rem;
-      }
-
-      .limit-item {
-        display: grid;
-        grid-template-columns: 1.15rem 1fr;
-        gap: 0.75rem;
-        align-items: start;
-        padding: 0.9rem 1rem;
-        border-radius: 12px;
+      .independence-card {
+        min-width: 0;
+        padding: 1.35rem 1.45rem;
+        border: 1px solid var(--line);
+        border-top: 5px solid var(--blue);
+        border-radius: 18px;
         background: var(--paper);
       }
 
-      .limit-symbol {
+      .independence-card.is-independent {
+        border-top-color: var(--green);
+      }
+
+      .independence-card.is-blocked {
+        border-top-color: var(--amber);
+      }
+
+      .independence-status {
+        display: inline-flex;
+        margin-bottom: 0.8rem;
+        padding: 0.32rem 0.5rem;
+        border-radius: 7px;
+        background: var(--blue-soft);
         color: var(--blue-dark);
-        font-weight: 900;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.68rem;
+        font-weight: 850;
+        letter-spacing: 0.04em;
       }
 
-      .limit-item strong {
-        display: block;
-        margin-bottom: 0.18rem;
+      .is-independent .independence-status {
+        background: var(--green-soft);
+        color: var(--green);
       }
 
-      .limit-item p {
-        margin: 0;
+      .is-blocked .independence-status {
+        background: var(--amber-soft);
+        color: #8a5200;
+      }
+
+      .independence-card h3 {
+        margin-bottom: 0.45rem;
+        font-size: 1.35rem;
+      }
+
+      .independence-card > p {
+        margin: 0 0 1rem;
         color: var(--muted);
-        font-size: 0.82rem;
+        font-size: 0.9rem;
+      }
+
+      .independence-points {
+        display: grid;
+        gap: 0.65rem;
+        margin: 0;
+        padding-left: 1.2rem;
+        color: #34516d;
+      }
+
+      .independence-points li {
+        padding-left: 0.15rem;
+        line-height: 1.42;
       }
 
       .participation-grid {
@@ -2221,7 +2248,7 @@
         .release-layout,
         .summary-grid,
         .objective-grid,
-        .decision-layout,
+        .independence-grid,
         .context-intro,
         .install-layout {
           grid-template-columns: 1fr;
@@ -2536,10 +2563,6 @@
               </p>
             </article>
           </div>
-          <div class="context-result">
-            <strong>Uso actual</strong>
-            <p>Resolver iniciativas, investigar comportamientos, validar cambios y preparar entregas.</p>
-          </div>
         </div>
       </section>
 
@@ -2836,33 +2859,25 @@ codex plugin add qdd-sky@qdd-sky</code></pre>
           <p class="kicker">06 — Pedidos puntuales</p>
           <h2 id="titulo-pedidos-puntuales">Ejemplos de pedidos puntuales</h2>
           <p class="lead">
-            No todo pedido necesita un workflow completo. QDD puede usar una capacidad específica
-            para responder una consulta o realizar una tarea concreta.
+            También se pueden pedir tareas acotadas que no requieren ejecutar uno de los
+            workflows anteriores.
           </p>
           <div class="prompt-ideas-grid" aria-label="Ejemplos de pedidos que se pueden hacer a QDD Sky">
             <article class="prompt-idea-card">
               <span class="prompt-idea-label">Entender un flujo</span>
-              <p>“Explícame cómo circula este dato desde que se genera hasta que se guarda.”</p>
+              <p>“Explícame cómo funciona el flujo de pago con DEUNA.”</p>
             </article>
             <article class="prompt-idea-card">
-              <span class="prompt-idea-label">Encontrar el código</span>
-              <p>“Encuentra qué repositorios, servicios y archivos participan en este comportamiento.”</p>
+              <span class="prompt-idea-label">Revisar una entrega</span>
+              <p>“¿Qué cambios están incluidos en este tag de deploy?”</p>
             </article>
             <article class="prompt-idea-card">
-              <span class="prompt-idea-label">Revisar un cambio</span>
-              <p>“Revisa este cambio e identifica riesgos o componentes que podrían verse afectados.”</p>
+              <span class="prompt-idea-label">Investigar un caso</span>
+              <p>“Busca en los logs qué ocurrió con esta reserva y hasta dónde llegó.”</p>
             </article>
             <article class="prompt-idea-card">
-              <span class="prompt-idea-label">Comparar ambientes</span>
-              <p>“Compara este comportamiento entre QA y Stage y separa lo confirmado de lo pendiente.”</p>
-            </article>
-            <article class="prompt-idea-card">
-              <span class="prompt-idea-label">Verificar una versión</span>
-              <p>“Confirma qué versión está desplegada en este ambiente y con qué evidencia.”</p>
-            </article>
-            <article class="prompt-idea-card">
-              <span class="prompt-idea-label">Revisar Git</span>
-              <p>“Verifica a qué commit apunta este tag y en qué ramas está incluido.”</p>
+              <span class="prompt-idea-label">Refinar un pedido</span>
+              <p>“Revisa este DoR y señala qué información falta o se contradice.”</p>
             </article>
             <article class="prompt-idea-card">
               <span class="prompt-idea-label">Evaluar evidencia</span>
@@ -2870,12 +2885,12 @@ codex plugin add qdd-sky@qdd-sky</code></pre>
             </article>
             <article class="prompt-idea-card">
               <span class="prompt-idea-label">Mejorar documentación</span>
-              <p>“Revisa este documento y corrige inconsistencias, redundancias y partes confusas.”</p>
+              <p>“Revisa este documento y ajusta las partes que no se entienden fácilmente.”</p>
             </article>
           </div>
           <div class="context-result">
             <strong>Resultado</strong>
-            <p>Una respuesta acotada al pedido, con la evidencia disponible y los pendientes identificados.</p>
+            <p>QDD utiliza solo las capacidades necesarias y termina al entregar la respuesta solicitada.</p>
           </div>
         </div>
       </section>
@@ -2884,22 +2899,30 @@ codex plugin add qdd-sky@qdd-sky</code></pre>
         <div class="slide-inner">
           <p class="kicker">07 — Cuándo interviene el usuario</p>
           <h2 id="titulo-limites">Cuándo necesita una respuesta</h2>
-          <div class="decision-layout">
-            <div class="limit-list">
-              <article class="limit-item"><span class="limit-symbol">■</span><div><strong>El usuario debe elegir una opción</strong><p>Las alternativas cambian el alcance, el comportamiento esperado o el resultado que se debe entregar.</p></div></article>
-              <article class="limit-item"><span class="limit-symbol">!</span><div><strong>Falta información o acceso necesario</strong><p>Solicita el permiso, la evidencia o el dato indispensable para continuar.</p></div></article>
-              <article class="limit-item"><span class="limit-symbol">↗</span><div><strong>Debe realizar una acción externa no incluida en el pedido</strong><p>Solicita confirmación antes de una escritura externa o una operación irreversible que no estaba incluida en la solicitud original.</p></div></article>
-              <article class="limit-item"><span class="limit-symbol">×</span><div><strong>Debe realizar una acción sensible</strong><p>Solicita autorización para fusionar un MR, operar en PROD, realizar pagos, reiniciar servicios, revertir cambios, reenviar eventos o publicar información.</p></div></article>
-            </div>
-            <figure class="art-card decision-art">
-              <img
-                src="assets/qdd-sky-demo-illustrations/02-checkpoint-permisos-evidencia.png"
-                alt="Xiaohei detiene un pedido ante un checkpoint que requiere permiso y evidencia."
-                width="1672"
-                height="941"
-              />
-              <figcaption>El workflow solicita una respuesta cuando necesita una decisión, un requisito o una autorización.</figcaption>
-            </figure>
+          <p class="lead">La diferencia es si QDD puede ejecutar y comprobar el siguiente paso dentro del alcance autorizado.</p>
+          <div class="independence-grid" aria-label="Comparación de cuándo QDD continúa y cuándo necesita una respuesta">
+            <article class="independence-card is-independent">
+              <span class="independence-status">NO NECESITA RESPUESTA</span>
+              <h3>Continúa de forma independiente</h3>
+              <p>Avanza mientras el siguiente paso cumpla estas condiciones:</p>
+              <ul class="independence-points">
+                <li>Está incluido en el pedido y no cambia su alcance.</li>
+                <li>Puede consultar el contexto y la evidencia necesarios con los accesos disponibles.</li>
+                <li>La acción es rutinaria, reversible y su resultado puede comprobarse.</li>
+                <li>Puede revisar y corregir el resultado antes de continuar.</li>
+              </ul>
+            </article>
+            <article class="independence-card is-blocked">
+              <span class="independence-status">NECESITA RESPUESTA</span>
+              <h3>Se detiene ante un bloqueo</h3>
+              <p>Cualquiera de estas condiciones impide que continúe de forma independiente:</p>
+              <ul class="independence-points">
+                <li>El usuario debe elegir entre alternativas que cambian el alcance, el comportamiento o el resultado.</li>
+                <li>Falta un dato, acceso, permiso o evidencia indispensable.</li>
+                <li>La siguiente acción no estaba incluida en el pedido o requiere autorización explícita.</li>
+                <li>La acción es sensible: fusionar un MR, operar en PROD, pagar, reiniciar, revertir, reenviar eventos o publicar.</li>
+              </ul>
+            </article>
           </div>
         </div>
       </section>
