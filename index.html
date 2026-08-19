@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
+      <meta
       name="description"
-      content="Presentación autoexplicativa sobre los componentes, workflows, ejecución y checkpoints de QDD Sky."
+      content="Presentación autoexplicativa sobre QDD Sky: componentes, instalación, workflows, ejecución, límites y canales de participación."
     />
     <title>QDD Sky — Demo</title>
     <style>
@@ -187,7 +187,7 @@
       }
 
       .progress-bar {
-        width: 7.14%;
+        width: 11.11%;
         height: 100%;
         background: var(--blue);
         transform-origin: left;
@@ -548,6 +548,41 @@
         color: #34516d;
       }
 
+      .prompt-ideas-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.8rem;
+        margin-top: 1.35rem;
+      }
+
+      .prompt-idea-card {
+        display: flex;
+        min-height: 8.4rem;
+        flex-direction: column;
+        gap: 0.65rem;
+        padding: 1rem 1.05rem;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--paper);
+      }
+
+      .prompt-idea-label {
+        color: var(--blue);
+        font-family: var(--mono);
+        font-size: 0.69rem;
+        font-weight: 850;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .prompt-idea-card p {
+        margin: 0;
+        color: var(--ink);
+        font-size: 0.94rem;
+        font-weight: 740;
+        line-height: 1.42;
+      }
+
       .illustration-layout {
         grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
       }
@@ -613,6 +648,174 @@
       .component-card span {
         color: var(--muted);
         font-size: 0.82rem;
+      }
+
+      .install-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(32rem, 1.1fr);
+        gap: 1.4rem;
+        align-items: stretch;
+        margin-top: 1.4rem;
+      }
+
+      .install-steps {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .install-step {
+        display: grid;
+        min-width: 0;
+        grid-template-columns: 2.2rem 1fr;
+        gap: 0.8rem;
+        align-items: start;
+        padding: 0.95rem 1rem;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--paper);
+      }
+
+      .install-step-number {
+        display: grid;
+        width: 2rem;
+        height: 2rem;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--blue-soft);
+        color: var(--blue-dark);
+        font-size: 0.78rem;
+        font-weight: 900;
+      }
+
+      .install-step strong {
+        display: block;
+        margin-bottom: 0.2rem;
+      }
+
+      .install-step p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .runtime-panel {
+        min-width: 0;
+        padding: 1.15rem;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--paper);
+      }
+
+      .runtime-tabs {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .runtime-tab {
+        min-width: 0;
+        padding: 0.65rem 0.75rem;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #f5f8fb;
+        color: var(--muted);
+        cursor: pointer;
+        font-weight: 800;
+      }
+
+      .runtime-tab:hover,
+      .runtime-tab[aria-selected="true"] {
+        border-color: var(--blue);
+        background: var(--blue-soft);
+        color: var(--blue-dark);
+      }
+
+      .runtime-command-panel {
+        min-width: 0;
+      }
+
+      .runtime-command-head {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.45rem;
+      }
+
+      .runtime-command-head strong {
+        font-size: 1.1rem;
+      }
+
+      .release-source {
+        padding: 0.25rem 0.45rem;
+        border-radius: 7px;
+        background: var(--green-soft);
+        color: var(--green);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.7rem;
+        font-weight: 800;
+      }
+
+      .runtime-command-summary {
+        margin-bottom: 0.75rem;
+        color: var(--muted);
+        font-size: 0.84rem;
+      }
+
+      .runtime-command {
+        overflow-x: auto;
+        margin: 0;
+        padding: 0.9rem 1rem;
+        border-radius: 12px;
+        background: var(--navy);
+        color: #edf6ff;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.78rem;
+        line-height: 1.7;
+        white-space: pre-wrap;
+      }
+
+      .runtime-command code {
+        padding: 0;
+        background: transparent;
+        color: inherit;
+        font-size: inherit;
+      }
+
+      .install-output {
+        margin-top: 0.9rem;
+        padding-top: 0.8rem;
+        border-top: 1px solid var(--line);
+      }
+
+      .install-output strong {
+        display: block;
+        margin-bottom: 0.45rem;
+        font-size: 0.86rem;
+      }
+
+      .install-output-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+
+      .install-output-tag {
+        padding: 0.28rem 0.45rem;
+        border-radius: 7px;
+        background: #edf2f8;
+        color: #334b64;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.68rem;
+        font-weight: 800;
+      }
+
+      .install-output p {
+        margin: 0.55rem 0 0;
+        color: var(--muted);
+        font-size: 0.78rem;
       }
 
       .layer-diagram {
@@ -707,22 +910,30 @@
         box-shadow: 0 8px 22px rgb(0 145 213 / 10%);
       }
 
-      .flow-step:not(:last-child)::after {
+      .flow-step:not(:last-child)::before {
         position: absolute;
         z-index: 2;
         top: 50%;
         right: -1.18rem;
-        display: grid;
         width: 1.1rem;
         height: 1.1rem;
-        place-items: center;
         border-radius: 50%;
         background: var(--blue);
-        color: #fff;
-        content: "›";
-        font-size: 0.95rem;
-        font-weight: 900;
+        content: "";
         transform: translateY(-50%);
+      }
+
+      .flow-step:not(:last-child)::after {
+        position: absolute;
+        z-index: 3;
+        top: 50%;
+        right: -0.81rem;
+        width: 0.36rem;
+        height: 0.36rem;
+        border-top: 0.15rem solid #fff;
+        border-right: 0.15rem solid #fff;
+        content: "";
+        transform: translateY(-50%) rotate(45deg);
       }
 
       .step-number {
@@ -824,9 +1035,14 @@
       .workflow-card {
         position: relative;
         display: block;
+        width: 100%;
         min-height: 13rem;
         padding: 1.5rem 1.6rem;
+        color: var(--ink);
+        font: inherit;
+        text-align: left;
         text-decoration: none;
+        cursor: pointer;
         transition:
           border-color 160ms ease,
           transform 160ms ease,
@@ -879,6 +1095,15 @@
         color: var(--blue-dark);
         content: "> ";
         font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+
+      .workflow-detail-hint {
+        position: absolute;
+        bottom: 1.25rem;
+        left: 1.6rem;
+        color: var(--muted);
+        font-size: 0.72rem;
+        font-weight: 800;
       }
 
       .workflow-head {
@@ -1345,6 +1570,87 @@
         font-size: 0.82rem;
       }
 
+      .participation-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.2rem;
+        margin-top: 1.3rem;
+      }
+
+      .participation-card {
+        overflow: hidden;
+        min-width: 0;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--paper);
+      }
+
+      .participation-card img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        border-bottom: 1px solid var(--line);
+        object-fit: cover;
+      }
+
+      .participation-card-content {
+        padding: 1rem 1.15rem 1.1rem;
+      }
+
+      .participation-card-head {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.45rem;
+      }
+
+      .participation-card h3 {
+        margin: 0;
+      }
+
+      .participation-badge {
+        padding: 0.25rem 0.45rem;
+        border-radius: 7px;
+        background: var(--blue-soft);
+        color: var(--blue-dark);
+        font-size: 0.7rem;
+        font-weight: 850;
+      }
+
+      .participation-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.84rem;
+      }
+
+      .participation-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+        margin-top: 0.8rem;
+      }
+
+      .participation-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem 0.7rem;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        background: #f8fbfe;
+        color: var(--ink);
+        font-size: 0.76rem;
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      .participation-link:hover {
+        border-color: var(--blue);
+        color: var(--blue-dark);
+      }
+
       .role-grid {
         grid-template-columns: repeat(5, 1fr);
         margin-top: 1.7rem;
@@ -1454,8 +1760,7 @@
       }
 
       #workflows h2,
-      #ejecucion h2,
-      #objetivo h2 {
+      #ejecucion h2 {
         max-width: none;
       }
 
@@ -1505,8 +1810,19 @@
 
         .objective-grid,
         .workflow-grid,
-        .execution-flow {
+        .execution-flow,
+        .prompt-ideas-grid,
+        .install-layout {
           margin-top: 1rem;
+        }
+
+        .prompt-idea-card {
+          min-height: 7.2rem;
+          padding: 0.75rem 0.85rem;
+        }
+
+        .prompt-idea-card p {
+          font-size: 0.82rem;
         }
 
         .objective-column {
@@ -1528,6 +1844,28 @@
 
         .component-card span {
           font-size: 0.75rem;
+        }
+
+        .install-step {
+          padding: 0.75rem 0.85rem;
+        }
+
+        .install-step p,
+        .runtime-command-summary {
+          font-size: 0.75rem;
+        }
+
+        .runtime-panel {
+          padding: 0.9rem;
+        }
+
+        .runtime-tabs {
+          margin-bottom: 0.7rem;
+        }
+
+        .runtime-command {
+          padding: 0.7rem 0.8rem;
+          font-size: 0.72rem;
         }
 
         .execution-flow {
@@ -1640,6 +1978,19 @@
         .extension-line {
           margin-top: 0.8rem;
         }
+
+        .participation-grid {
+          margin-top: 0.8rem;
+        }
+
+        .participation-card img {
+          max-height: 245px;
+          object-fit: cover;
+        }
+
+        .participation-card-content {
+          padding: 0.8rem 0.9rem;
+        }
       }
 
       .bottom-nav {
@@ -1681,6 +2032,115 @@
       .index-dialog::backdrop {
         background: rgb(16 35 63 / 58%);
         backdrop-filter: blur(3px);
+      }
+
+      .workflow-dialog {
+        width: min(62rem, calc(100vw - 2rem));
+        max-height: min(84svh, 50rem);
+        overflow: auto;
+        padding: 0;
+        border: 0;
+        border-radius: 20px;
+        background: var(--paper);
+        color: var(--ink);
+        box-shadow: 0 30px 90px rgb(5 22 43 / 28%);
+      }
+
+      .workflow-dialog::backdrop {
+        background: rgb(16 35 63 / 58%);
+        backdrop-filter: blur(3px);
+      }
+
+      .workflow-dialog-head {
+        position: sticky;
+        z-index: 2;
+        top: 0;
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 1.15rem 1.3rem;
+        border-bottom: 1px solid var(--line);
+        background: var(--paper);
+      }
+
+      .workflow-dialog-heading {
+        min-width: 0;
+      }
+
+      .workflow-dialog-heading h2 {
+        margin: 0.25rem 0 0;
+        font-size: clamp(1.8rem, 4vw, 3rem);
+      }
+
+      .workflow-dialog-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+        align-items: center;
+      }
+
+      .workflow-dialog-code,
+      .workflow-dialog-state {
+        padding: 0.3rem 0.5rem;
+        border-radius: 7px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.7rem;
+        font-weight: 800;
+      }
+
+      .workflow-dialog-code {
+        background: #edf2f8;
+        color: #334b64;
+      }
+
+      .workflow-dialog-state {
+        background: var(--blue-soft);
+        color: var(--blue-dark);
+      }
+
+      .workflow-dialog-content {
+        padding: 1.2rem 1.3rem 1.4rem;
+      }
+
+      .workflow-dialog-prompt {
+        margin: 0 0 1rem;
+        color: var(--muted);
+      }
+
+      .workflow-dialog-prompt strong {
+        color: var(--ink);
+      }
+
+      .workflow-detail-columns {
+        display: grid;
+        grid-template-columns: minmax(0, 1.25fr) minmax(16rem, 0.75fr);
+        gap: 1rem;
+      }
+
+      .workflow-detail-section {
+        min-width: 0;
+        padding: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: #fbfdff;
+      }
+
+      .workflow-detail-section h3 {
+        margin-bottom: 0.7rem;
+      }
+
+      .workflow-detail-list {
+        display: grid;
+        gap: 0.55rem;
+        margin: 0;
+        padding-left: 1.35rem;
+      }
+
+      .workflow-detail-list li {
+        padding-left: 0.15rem;
+        color: #34516d;
+        line-height: 1.42;
       }
 
       .index-head {
@@ -1762,7 +2222,8 @@
         .summary-grid,
         .objective-grid,
         .decision-layout,
-        .context-intro {
+        .context-intro,
+        .install-layout {
           grid-template-columns: 1fr;
         }
 
@@ -1784,10 +2245,23 @@
           grid-template-columns: repeat(2, 1fr);
         }
 
+        .prompt-ideas-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .participation-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .workflow-detail-columns {
+          grid-template-columns: 1fr;
+        }
+
         .execution-flow {
           grid-template-columns: repeat(3, 1fr);
         }
 
+        .flow-step:nth-child(3)::before,
         .flow-step:nth-child(3)::after {
           display: none;
         }
@@ -1863,6 +2337,14 @@
           grid-template-columns: 1fr;
         }
 
+        .prompt-ideas-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .runtime-tabs {
+          grid-template-columns: 1fr;
+        }
+
         .context-result,
         .example-banner {
           grid-template-columns: 1fr;
@@ -1889,11 +2371,25 @@
           min-height: auto;
         }
 
+        .flow-step:not(:last-child)::before {
+          top: auto;
+          right: auto;
+          bottom: -1.13rem;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+
         .flow-step:not(:last-child)::after {
           top: auto;
-          right: 50%;
-          bottom: -1.13rem;
-          transform: translateX(50%) rotate(90deg);
+          right: auto;
+          bottom: -0.78rem;
+          left: 50%;
+          transform: translateX(-50%) rotate(135deg);
+        }
+
+        .flow-step:nth-child(3)::before,
+        .flow-step:nth-child(3)::after {
+          display: block;
         }
 
         .journey {
@@ -1939,6 +2435,10 @@
           display: none !important;
         }
 
+        .workflow-dialog {
+          display: none !important;
+        }
+
         .slide {
           min-height: 100vh;
           break-after: page;
@@ -1961,7 +2461,7 @@
       </a>
       <div class="section-name" id="section-name" aria-live="polite">QDD Sky</div>
       <div class="top-actions">
-        <span class="counter" id="counter" aria-label="Pantalla actual">1 / 14</span>
+        <span class="counter" id="counter" aria-label="Pantalla actual">1 / 9</span>
         <button
           class="icon-button"
           id="open-index"
@@ -2043,77 +2543,10 @@
         </div>
       </section>
 
-      <section class="slide overview-slide" id="entorno" data-title="Dónde opera QDD Sky" aria-labelledby="titulo-entorno">
-        <div class="slide-inner">
-          <p class="kicker">02 — Entorno de operación</p>
-          <h2 id="titulo-entorno">Dónde opera QDD Sky</h2>
-          <p class="lead">
-            QDD trabaja sobre los sistemas, herramientas y ambientes que Sky habilita para la persona o el agente. Su
-            alcance real depende de la infraestructura, la conectividad, las herramientas y los
-            permisos disponibles.
-          </p>
-          <div class="surface-grid">
-            <article class="surface-card">
-              <strong>Fuentes de contexto</strong>
-              <p>Jira, GitLab, repositorios, documentación y conocimiento instalado en el proyecto.</p>
-            </article>
-            <article class="surface-card">
-              <strong>Dónde puede ejecutar</strong>
-              <p>Archivos locales, scripts, pruebas, pipelines, ambientes y cargas de Kubernetes.</p>
-            </article>
-            <article class="surface-card">
-              <strong>Evidencia operativa</strong>
-              <p>Logs, métricas, trazas, eventos, configuración y estado observable de los sistemas.</p>
-            </article>
-            <article class="surface-card">
-              <strong>Accesos disponibles</strong>
-              <p>La identidad, las credenciales, la red y los permisos determinan qué puede consultar o ejecutar.</p>
-            </article>
-          </div>
-          <div class="context-result">
-            <strong>Qué aporta QDD</strong>
-            <p>Organiza cómo utilizar esos recursos y cómo continuar cuando falta acceso, evidencia o una decisión.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="slide overview-slide" id="objetivo" data-title="Objetivo de QDD" aria-labelledby="titulo-objetivo">
-        <div class="slide-inner">
-          <p class="kicker">03 — Objetivo</p>
-          <h2 id="titulo-objetivo">Hablar directamente con la IA</h2>
-          <p class="lead">
-            El usuario indica el resultado que necesita. La estructura instalada se encarga de
-            resolver cómo llegar hasta ese resultado.
-          </p>
-          <div class="objective-grid">
-            <article class="objective-column">
-              <h3>El usuario aporta</h3>
-              <ul class="plain-list">
-                <li>El resultado que necesita.</li>
-                <li>El ticket o identificador del caso, como un PNR, registryId o código de reserva.</li>
-                <li>El ambiente o alcance cuando no puede inferirse del pedido o del ticket.</li>
-                <li>Una condición excepcional del pedido que todavía no esté documentada.</li>
-                <li>Las decisiones que QDD solicita cuando necesita una definición del usuario.</li>
-              </ul>
-            </article>
-            <article class="objective-column is-qdd">
-              <h3>QDD resuelve</h3>
-              <ul class="check-list">
-                <li>El workflow que corresponde al pedido.</li>
-                <li>Las reglas, restricciones y conocimiento ya definidos en Sky y en el proyecto.</li>
-                <li>La información adicional que necesita buscar.</li>
-                <li>Las instrucciones y herramientas que debe utilizar y en qué orden.</li>
-                <li>Las comprobaciones necesarias y el estado alcanzado.</li>
-              </ul>
-            </article>
-          </div>
-        </div>
-      </section>
-
       <section class="slide overview-slide" id="componentes" data-title="Componentes de QDD" aria-labelledby="titulo-componentes">
         <div class="slide-inner">
           <div class="overview-heading">
-            <p class="kicker">04 — Componentes</p>
+            <p class="kicker">02 — Componentes</p>
             <h2 id="titulo-componentes">Qué contiene QDD</h2>
           </div>
           <div class="component-layout">
@@ -2156,208 +2589,160 @@
         </div>
       </section>
 
+      <section class="slide overview-slide" id="instalacion" data-title="Instalación" aria-labelledby="titulo-instalacion">
+        <div class="slide-inner">
+          <p class="kicker">03 — Instalación</p>
+          <h2 id="titulo-instalacion">Instalar QDD Sky como plugin</h2>
+          <p class="lead">
+            La rama <code>release</code> contiene el paquete preparado para Claude Code, Codex y
+            OpenCode. La instalación registra el catálogo y activa el plugin principal.
+          </p>
+          <div class="install-layout">
+            <div class="install-steps" aria-label="Pasos de instalación">
+              <article class="install-step">
+                <span class="install-step-number">1</span>
+                <div>
+                  <strong>Confirmar acceso</strong>
+                  <p>
+                    La cuenta debe tener acceso al repositorio privado <code>qurable/QDD-Sky</code>
+                    y Git debe estar autenticado por SSH o mediante <code>gh auth setup-git</code>.
+                  </p>
+                </div>
+              </article>
+              <article class="install-step">
+                <span class="install-step-number">2</span>
+                <div>
+                  <strong>Elegir el runtime</strong>
+                  <p>Seleccionar una pestaña y ejecutar los comandos exactos para ese entorno.</p>
+                </div>
+              </article>
+              <article class="install-step">
+                <span class="install-step-number">3</span>
+                <div>
+                  <strong>Activar el core</strong>
+                  <p>
+                    Instalar <code>qdd-sky</code>. Los paquetes opcionales aparecen en el mismo
+                    catálogo y se agregan por separado cuando son necesarios.
+                  </p>
+                </div>
+              </article>
+            </div>
+            <article class="runtime-panel">
+              <div class="runtime-tabs" role="tablist" aria-label="Runtime de instalación">
+                <button
+                  class="runtime-tab"
+                  id="runtime-tab-codex"
+                  type="button"
+                  role="tab"
+                  aria-selected="true"
+                  aria-controls="runtime-command-panel"
+                  data-runtime="codex"
+                >
+                  Codex
+                </button>
+                <button
+                  class="runtime-tab"
+                  id="runtime-tab-claude"
+                  type="button"
+                  role="tab"
+                  aria-selected="false"
+                  aria-controls="runtime-command-panel"
+                  data-runtime="claude"
+                  tabindex="-1"
+                >
+                  Claude Code
+                </button>
+                <button
+                  class="runtime-tab"
+                  id="runtime-tab-opencode"
+                  type="button"
+                  role="tab"
+                  aria-selected="false"
+                  aria-controls="runtime-command-panel"
+                  data-runtime="opencode"
+                  tabindex="-1"
+                >
+                  OpenCode
+                </button>
+              </div>
+              <div
+                class="runtime-command-panel"
+                id="runtime-command-panel"
+                role="tabpanel"
+                aria-labelledby="runtime-tab-codex"
+                aria-live="polite"
+              >
+                <div class="runtime-command-head">
+                  <strong id="runtime-command-title">Codex</strong>
+                  <span class="release-source">release · 0.1.0-beta.1</span>
+                </div>
+                <p class="runtime-command-summary" id="runtime-command-summary">
+                  Agrega el catálogo privado desde la rama release y luego instala el plugin
+                  principal.
+                </p>
+                <pre class="runtime-command"><code id="runtime-command-code">codex plugin marketplace add git@github.com:qurable/QDD-Sky.git --ref release
+codex plugin add qdd-sky@qdd-sky</code></pre>
+                <div class="install-output">
+                  <strong>Disponible después de instalar</strong>
+                  <div class="install-output-tags" aria-label="Contenido instalado">
+                    <span class="install-output-tag">skills</span>
+                    <span class="install-output-tag">_qdd-docs</span>
+                    <span class="install-output-tag">agents</span>
+                    <span class="install-output-tag">hooks</span>
+                    <span class="install-output-tag">config</span>
+                  </div>
+                  <p>
+                    El runtime recibe workflows, capacidades y conocimiento en la estructura que
+                    necesita para utilizarlos directamente.
+                  </p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <section class="slide overview-slide" id="workflows" data-title="Workflows disponibles" aria-labelledby="titulo-workflows">
         <div class="slide-inner">
-          <p class="kicker">05 — Workflows</p>
+          <p class="kicker">04 — Workflows</p>
           <h2 id="titulo-workflows">Workflows disponibles</h2>
           <p class="lead">Un resultado completo utiliza un workflow. Una tarea puntual utiliza una instrucción específica. El código de cada tarjeta indica el estado que puede devolver.</p>
           <nav class="workflow-grid" aria-label="Workflows de QDD">
-            <a class="workflow-card" href="#ticket">
+            <button class="workflow-card workflow-detail-trigger" type="button" data-workflow="initiative" aria-haspopup="dialog">
               <span class="workflow-number">1</span>
               <h3>Resolver una iniciativa</h3>
               <span class="prompt-example">Resuelve VC-1303.</span>
+              <span class="workflow-detail-hint">Ver cómo funciona</span>
               <span class="workflow-state">MR_READY</span>
-            </a>
-            <a class="workflow-card" href="#investigacion">
+            </button>
+            <button class="workflow-card workflow-detail-trigger" type="button" data-workflow="investigation" aria-haspopup="dialog">
               <span class="workflow-number">2</span>
               <h3>Explorar o investigar</h3>
               <span class="prompt-example">Investiga este error en Stage.</span>
+              <span class="workflow-detail-hint">Ver cómo funciona</span>
               <span class="workflow-state">INVESTIGATED / BLOCKED</span>
-            </a>
-            <a class="workflow-card" href="#qa">
+            </button>
+            <button class="workflow-card workflow-detail-trigger" type="button" data-workflow="qa" aria-haspopup="dialog">
               <span class="workflow-number">3</span>
               <h3>Validar un cambio</h3>
               <span class="prompt-example">Valida VC-1303 en QA.</span>
+              <span class="workflow-detail-hint">Ver cómo funciona</span>
               <span class="workflow-state">PASS / FAIL / BLOCKED</span>
-            </a>
-            <a class="workflow-card" href="#documentacion">
+            </button>
+            <button class="workflow-card workflow-detail-trigger" type="button" data-workflow="release" aria-haspopup="dialog">
               <span class="workflow-number">4</span>
               <h3>Preparar una entrega</h3>
               <span class="prompt-example">Prepara la release v2.4.0.</span>
+              <span class="workflow-detail-hint">Ver cómo funciona</span>
               <span class="workflow-state">RELEASE_READY / TAG_PUBLISHED</span>
-            </a>
+            </button>
           </nav>
-        </div>
-      </section>
-
-      <section class="slide" id="ticket" data-title="Workflow: resolver una iniciativa" aria-labelledby="titulo-ticket">
-        <div class="slide-inner">
-          <div class="workflow-head">
-            <div>
-              <div class="workflow-identity">
-                <span class="workflow-badge">WORKFLOW 1 / 4</span>
-                <code>sky-take-ticket</code>
-              </div>
-              <h2 id="titulo-ticket">Resolver una iniciativa</h2>
-            </div>
-            <span class="terminal-state">MR_READY</span>
-          </div>
-          <p class="workflow-prompt"><span>Pedido</span><strong>“Resuelve VC-1303.”</strong></p>
-          <div class="journey" aria-label="Etapas para resolver una iniciativa">
-            <article class="journey-step"><small>01</small><strong>Leer y precisar el pedido</strong><p>Confirmar alcance, criterios, dudas y riesgo.</p></article>
-            <article class="journey-step"><small>02</small><strong>Identificar el código afectado</strong><p>Encontrar repositorios, componentes, archivos e historial.</p></article>
-            <article class="journey-step"><small>03</small><strong>Comprobar cómo funciona hoy</strong><p>Seguir los datos y definir qué debe cambiar.</p></article>
-            <article class="journey-step"><small>04</small><strong>Aplicar el cambio</strong><p>Modificar solo el código y la configuración necesarios.</p></article>
-            <article class="journey-step"><small>05</small><strong>Revisar y probar el cambio</strong><p>Revisar el conjunto y ejecutar las validaciones.</p></article>
-            <article class="journey-step"><small>06</small><strong>Crear y verificar el MR</strong><p>Publicar la rama y comprobar el MR resultante.</p></article>
-          </div>
-          <div class="guardrails">
-            <article class="note-card">
-              <strong>Profundidad según el riesgo</strong>
-              <p>Ajusta la exploración y las verificaciones a la complejidad y los componentes afectados.</p>
-            </article>
-            <article class="note-card">
-              <strong>Datos compartidos entre sistemas</strong>
-              <p>Verifica quién produce el dato, quién lo utiliza y qué resultado genera.</p>
-            </article>
-            <article class="note-card">
-              <strong>Entrega</strong>
-              <p>Deja la rama publicada, el MR creado y las verificaciones realizadas sobre el cambio.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="slide" id="investigacion" data-title="Workflow: explorar o investigar" aria-labelledby="titulo-investigacion">
-        <div class="slide-inner">
-          <div class="workflow-head">
-            <div>
-              <div class="workflow-identity">
-                <span class="workflow-badge">WORKFLOW 2 / 4</span>
-                <code>sky-investigate-issue</code>
-              </div>
-              <h2 id="titulo-investigacion">Explorar o investigar</h2>
-            </div>
-            <span class="terminal-state">INVESTIGATED / BLOCKED</span>
-          </div>
-          <p class="workflow-prompt"><span>Pedido</span><strong>“Me reportan este error en Stage. Investiga qué ocurre.”</strong></p>
-          <div class="investigation-layout">
-            <div>
-              <h3>Tres tipos de pedido</h3>
-              <div class="starts">
-                <article class="start-card"><strong>Explorar un flujo</strong><p>Identificar qué componentes participan y cómo circulan los datos.</p></article>
-                <article class="start-card"><strong>Analizar un comportamiento</strong><p>Comparar lo observado con el contrato y el historial.</p></article>
-                <article class="start-card"><strong>Investigar un error</strong><p>Seguir el mismo caso entre servicios hasta encontrar dónde falla.</p></article>
-              </div>
-            </div>
-            <div>
-              <h3>Cómo sigue el caso</h3>
-              <div class="trace" aria-label="Trazabilidad de un flujo">
-                <article class="trace-node"><strong>Entrada</strong><p>Pedido, correlador, evento o acción inicial.</p></article>
-                <article class="trace-node"><strong>Productor</strong><p>Quién crea el dato o dispara el comportamiento.</p></article>
-                <article class="trace-node"><strong>Comunicación</strong><p>API, mensaje, configuración o integración utilizada.</p></article>
-                <article class="trace-node"><strong>Consumidor</strong><p>Cómo interpreta y transforma el dato.</p></article>
-                <article class="trace-node"><strong>Persistencia</strong><p>Dónde se guarda el dato y con qué identificador se puede buscar.</p></article>
-                <article class="trace-node is-boundary"><strong>Resultado observado</strong><p>Resultado visible y último punto que se pudo verificar.</p></article>
-                <article class="trace-result">
-                  <strong>Salida</strong>
-                  <p>Explicación respaldada por evidencia, recorrido, impacto y siguiente acción recomendada.</p>
-                </article>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="slide" id="qa" data-title="Workflow: validar un cambio" aria-labelledby="titulo-qa">
-        <div class="slide-inner">
-          <div class="workflow-head">
-            <div>
-              <div class="workflow-identity">
-                <span class="workflow-badge">WORKFLOW 3 / 4</span>
-                <code>sky-verify-change</code>
-              </div>
-              <h2 id="titulo-qa">Validar un cambio</h2>
-            </div>
-            <span class="terminal-state">PASS / FAIL / BLOCKED</span>
-          </div>
-          <p class="workflow-prompt"><span>Pedido</span><strong>“Valida VC-1303 en QA.”</strong></p>
-          <div class="qa-layout">
-            <article class="qa-column">
-              <h3>Ejecución</h3>
-              <div class="qa-steps">
-                <div class="qa-step"><span class="qa-step-number">1</span><div><strong>Confirmar qué versión se validará</strong><p>Identificar el commit, tag, imagen o versión exacta.</p></div></div>
-                <div class="qa-step"><span class="qa-step-number">2</span><div><strong>Confirmar la versión desplegada</strong><p>Comprobar que el ambiente ejecuta la versión esperada.</p></div></div>
-                <div class="qa-step"><span class="qa-step-number">3</span><div><strong>Definir las pruebas necesarias</strong><p>Unidad, integración, API, interfaz, eventos, persistencia o ejecución en el ambiente.</p></div></div>
-                <div class="qa-step"><span class="qa-step-number">4</span><div><strong>Ejecutar y reunir evidencia</strong><p>Observar el resultado real y guardar la evidencia.</p></div></div>
-                <div class="qa-step"><span class="qa-step-number">5</span><div><strong>Determinar el resultado</strong><p>Clasificar la evidencia y establecer el estado de la validación.</p></div></div>
-              </div>
-            </article>
-            <article class="qa-column">
-              <h3>Qué se registra por separado</h3>
-              <div class="dimension">
-                <strong>Ejecución</strong>
-                <div class="state-tags"><span class="state-tag">PASS</span><span class="state-tag">FAIL</span><span class="state-tag">BLOCKED</span><span class="state-tag">NOT_RUN</span></div>
-              </div>
-              <div class="dimension">
-                <strong>Evidencia</strong>
-                <div class="state-tags"><span class="state-tag">CONCLUYENTE</span><span class="state-tag">PARCIAL</span><span class="state-tag">NO CONCLUYENTE</span><span class="state-tag">NO EVALUABLE</span></div>
-              </div>
-              <div class="authority-note">
-                <strong>Resultado de la validación</strong>
-                <p>Registra por separado qué se ejecutó y qué demuestra la evidencia para entregar una conclusión verificable.</p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="slide" id="documentacion" data-title="Workflow: preparar una entrega" aria-labelledby="titulo-documentacion">
-        <div class="slide-inner">
-          <div class="workflow-head">
-            <div>
-              <div class="workflow-identity">
-                <span class="workflow-badge">WORKFLOW 4 / 4</span>
-                <code>sky-prepare-release</code>
-              </div>
-              <h2 id="titulo-documentacion">Preparar una entrega</h2>
-            </div>
-            <span class="terminal-state">RELEASE_READY / TAG_PUBLISHED</span>
-          </div>
-          <p class="workflow-prompt"><span>Pedido</span><strong>“Prepara la release v2.4.0 con estos tickets verificados.”</strong></p>
-          <div class="release-layout">
-            <article class="release-column">
-              <h3>Información que verifica y compara</h3>
-              <div class="release-evidence">
-                <div class="evidence-item"><strong>Versiones</strong><span>Versión del paquete, historial de cambios y artefacto que se desplegará.</span></div>
-                <div class="evidence-item"><strong>Ramas</strong><span>Rama base, rama de release y cambios incluidos en cada una.</span></div>
-                <div class="evidence-item"><strong>Tags</strong><span>Commit al que apunta cada tag y su relación con la rama.</span></div>
-                <div class="evidence-item"><strong>MRs</strong><span>Contenido, estado y pipeline asociado.</span></div>
-                <div class="evidence-item"><strong>Pipelines</strong><span>Resultado correspondiente a la versión que se entregará.</span></div>
-                <div class="evidence-item"><strong>Evidencias</strong><span>Validaciones asociadas a los cambios incluidos.</span></div>
-              </div>
-            </article>
-            <article class="release-column">
-              <h3>Entregables posibles</h3>
-              <ul class="check-list">
-                <li>Notas de release respaldadas por Jira y Git.</li>
-                <li>Documento de despliegue para transferir el trabajo a otro equipo.</li>
-                <li>Evidencias QA en el formato acordado.</li>
-                <li>Pasos de Jira para el pase.</li>
-                <li>Verificación de artefactos y relación entre tags, commits y ramas.</li>
-              </ul>
-              <div class="authority-note">
-                <strong>Resultado de la preparación</strong>
-                <p>Comprueba que los artefactos correspondan a la misma entrega y genera la documentación necesaria para continuar el pase.</p>
-              </div>
-            </article>
-          </div>
         </div>
       </section>
 
       <section class="slide overview-slide" id="ejecucion" data-title="Ejemplo de ejecución" aria-labelledby="titulo-ejecucion">
         <div class="slide-inner">
-          <p class="kicker">06 — Ejemplo de ejecución</p>
+          <p class="kicker">05 — Ejemplo de ejecución</p>
           <h2 id="titulo-ejecucion">“Resuelve VC-1303”</h2>
           <p class="lead">El pedido activa el workflow de resolución de una iniciativa.</p>
           <div class="execution-flow" aria-label="Etapas del pedido Resuelve VC-1303">
@@ -2446,39 +2831,58 @@
         </div>
       </section>
 
-      <section class="slide overview-slide" id="autonomia" data-title="Qué hace sin intervención" aria-labelledby="titulo-autonomia">
+      <section class="slide overview-slide" id="pedidos-puntuales" data-title="Pedidos puntuales" aria-labelledby="titulo-pedidos-puntuales">
         <div class="slide-inner">
-          <p class="kicker">07 — Autonomía actual</p>
-          <h2 id="titulo-autonomia">Qué hace sin intervención</h2>
-          <p class="lead">QDD continúa mientras las acciones sean necesarias para el pedido, estén autorizadas y puedan verificarse.</p>
-          <div class="autonomy-grid">
-            <article class="autonomy-card">
-              <strong>Reúne contexto</strong>
-              <p>Consulta tickets, código, historial, documentación y evidencia disponible sin pedir que el usuario repita esa información.</p>
+          <p class="kicker">06 — Pedidos puntuales</p>
+          <h2 id="titulo-pedidos-puntuales">Ejemplos de pedidos puntuales</h2>
+          <p class="lead">
+            No todo pedido necesita un workflow completo. QDD puede usar una capacidad específica
+            para responder una consulta o realizar una tarea concreta.
+          </p>
+          <div class="prompt-ideas-grid" aria-label="Ejemplos de pedidos que se pueden hacer a QDD Sky">
+            <article class="prompt-idea-card">
+              <span class="prompt-idea-label">Entender un flujo</span>
+              <p>“Explícame cómo circula este dato desde que se genera hasta que se guarda.”</p>
             </article>
-            <article class="autonomy-card">
-              <strong>Elige qué hacer a continuación</strong>
-              <p>Selecciona qué instrucciones y herramientas utilizar y en qué orden.</p>
+            <article class="prompt-idea-card">
+              <span class="prompt-idea-label">Encontrar el código</span>
+              <p>“Encuentra qué repositorios, servicios y archivos participan en este comportamiento.”</p>
             </article>
-            <article class="autonomy-card">
-              <strong>Ejecuta lo incluido en el pedido</strong>
-              <p>Realiza acciones rutinarias y reversibles dentro del alcance, como explorar, implementar, probar y revisar.</p>
+            <article class="prompt-idea-card">
+              <span class="prompt-idea-label">Revisar un cambio</span>
+              <p>“Revisa este cambio e identifica riesgos o componentes que podrían verse afectados.”</p>
             </article>
-            <article class="autonomy-card">
-              <strong>Revisa y corrige su trabajo</strong>
-              <p>Comprueba el resultado, ejecuta las pruebas necesarias y corrige los problemas encontrados.</p>
+            <article class="prompt-idea-card">
+              <span class="prompt-idea-label">Comparar ambientes</span>
+              <p>“Compara este comportamiento entre QA y Stage y separa lo confirmado de lo pendiente.”</p>
+            </article>
+            <article class="prompt-idea-card">
+              <span class="prompt-idea-label">Verificar una versión</span>
+              <p>“Confirma qué versión está desplegada en este ambiente y con qué evidencia.”</p>
+            </article>
+            <article class="prompt-idea-card">
+              <span class="prompt-idea-label">Revisar Git</span>
+              <p>“Verifica a qué commit apunta este tag y en qué ramas está incluido.”</p>
+            </article>
+            <article class="prompt-idea-card">
+              <span class="prompt-idea-label">Evaluar evidencia</span>
+              <p>“Revisa estas evidencias y dime qué resultado demuestran realmente.”</p>
+            </article>
+            <article class="prompt-idea-card">
+              <span class="prompt-idea-label">Mejorar documentación</span>
+              <p>“Revisa este documento y corrige inconsistencias, redundancias y partes confusas.”</p>
             </article>
           </div>
           <div class="context-result">
-            <strong>Trabaja hasta obtener</strong>
-            <p>Un resultado comprobable, una decisión que debe tomar el usuario o un impedimento explicado con evidencia.</p>
+            <strong>Resultado</strong>
+            <p>Una respuesta acotada al pedido, con la evidencia disponible y los pendientes identificados.</p>
           </div>
         </div>
       </section>
 
       <section class="slide overview-slide" id="limites" data-title="Cuándo necesita una respuesta" aria-labelledby="titulo-limites">
         <div class="slide-inner">
-          <p class="kicker">08 — Cuándo interviene el usuario</p>
+          <p class="kicker">07 — Cuándo interviene el usuario</p>
           <h2 id="titulo-limites">Cuándo necesita una respuesta</h2>
           <div class="decision-layout">
             <div class="limit-list">
@@ -2499,12 +2903,105 @@
           </div>
         </div>
       </section>
+
+      <section class="slide overview-slide" id="participar" data-title="Participar en QDD Sky" aria-labelledby="titulo-participar">
+        <div class="slide-inner">
+          <p class="kicker">08 — Participación</p>
+          <h2 id="titulo-participar">Dónde preguntar y aportar</h2>
+          <p class="lead">
+            Google Chat concentra la conversación del equipo. El repositorio conserva el código,
+            la documentación y los aportes revisables.
+          </p>
+          <div class="participation-grid">
+            <article class="participation-card">
+              <img
+                src="assets/qdd-sky-demo-illustrations/03-google-chat-comunidad.png"
+                alt="Xiaohei conecta preguntas, ideas, casos reales y ayuda en un espacio compartido de Google Chat."
+                width="1672"
+                height="941"
+              />
+              <div class="participation-card-content">
+                <div class="participation-card-head">
+                  <h3>Google Chat</h3>
+                  <span class="participation-badge">Espacio interno</span>
+                </div>
+                <p>
+                  Para hacer preguntas, proponer mejoras, compartir casos de uso y coordinar un
+                  aporte antes o durante su implementación.
+                </p>
+              </div>
+            </article>
+            <article class="participation-card">
+              <img
+                src="assets/qdd-sky-demo-illustrations/04-repositorio-aportes.png"
+                alt="Xiaohei incorpora un aporte en el repositorio compartido de workflows, skills y documentación."
+                width="1672"
+                height="941"
+              />
+              <div class="participation-card-content">
+                <div class="participation-card-head">
+                  <h3><code>qurable/QDD-Sky</code></h3>
+                  <span class="participation-badge">Fuente versionada</span>
+                </div>
+                <p>
+                  Para revisar lo que ya existe, proponer cambios mediante PR y mantener juntos
+                  workflows, capacidades, documentación, tests y el plugin publicado.
+                </p>
+                <div class="participation-actions">
+                  <a
+                    class="participation-link"
+                    href="https://github.com/qurable/QDD-Sky"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Abrir repositorio
+                  </a>
+                  <a
+                    class="participation-link"
+                    href="https://qurable.github.io/QDD-Sky/#aporte=new-package"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Proponer un aporte
+                  </a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
     </main>
 
     <nav class="bottom-nav" aria-label="Navegación anterior y siguiente">
       <button class="nav-button" id="previous" type="button" aria-label="Pantalla anterior">←</button>
       <button class="nav-button" id="next" type="button" aria-label="Pantalla siguiente">→</button>
     </nav>
+
+    <dialog class="workflow-dialog" id="workflow-dialog" aria-labelledby="workflow-dialog-title">
+      <div class="workflow-dialog-head">
+        <div class="workflow-dialog-heading">
+          <div class="workflow-dialog-meta">
+            <span class="workflow-dialog-code" id="workflow-dialog-code"></span>
+            <span class="workflow-dialog-state" id="workflow-dialog-state"></span>
+          </div>
+          <h2 id="workflow-dialog-title"></h2>
+        </div>
+        <button class="index-close" id="close-workflow" type="button" aria-label="Cerrar detalle del workflow">×</button>
+      </div>
+      <div class="workflow-dialog-content">
+        <p class="workflow-dialog-prompt"><strong>Ejemplo:</strong> <span id="workflow-dialog-prompt"></span></p>
+        <div class="workflow-detail-columns">
+          <section class="workflow-detail-section" aria-labelledby="workflow-primary-title">
+            <h3 id="workflow-primary-title"></h3>
+            <ol class="workflow-detail-list" id="workflow-primary-list"></ol>
+          </section>
+          <section class="workflow-detail-section" aria-labelledby="workflow-secondary-title">
+            <h3 id="workflow-secondary-title"></h3>
+            <ul class="workflow-detail-list" id="workflow-secondary-list"></ul>
+          </section>
+        </div>
+      </div>
+    </dialog>
 
     <dialog class="index-dialog" id="index-dialog" aria-labelledby="index-title">
       <div class="index-head">
@@ -2526,11 +3023,51 @@
         const openIndexButton = document.getElementById('open-index');
         const closeIndexButton = document.getElementById('close-index');
         const indexList = document.getElementById('index-list');
+        const workflowDialog = document.getElementById('workflow-dialog');
+        const closeWorkflowButton = document.getElementById('close-workflow');
+        const workflowDetailTriggers = [...document.querySelectorAll('.workflow-detail-trigger')];
+        const workflowDialogCode = document.getElementById('workflow-dialog-code');
+        const workflowDialogState = document.getElementById('workflow-dialog-state');
+        const workflowDialogTitle = document.getElementById('workflow-dialog-title');
+        const workflowDialogPrompt = document.getElementById('workflow-dialog-prompt');
+        const workflowPrimaryTitle = document.getElementById('workflow-primary-title');
+        const workflowPrimaryList = document.getElementById('workflow-primary-list');
+        const workflowSecondaryTitle = document.getElementById('workflow-secondary-title');
+        const workflowSecondaryList = document.getElementById('workflow-secondary-list');
+        const runtimeTabs = [...document.querySelectorAll('.runtime-tab')];
+        const runtimeCommandPanel = document.getElementById('runtime-command-panel');
+        const runtimeCommandTitle = document.getElementById('runtime-command-title');
+        const runtimeCommandSummary = document.getElementById('runtime-command-summary');
+        const runtimeCommandCode = document.getElementById('runtime-command-code');
         const executionDetailTriggers = [
           ...document.querySelectorAll('.execution-detail-trigger'),
         ];
         const executionDetailTitle = document.getElementById('execution-detail-title');
         const executionDetailList = document.getElementById('execution-detail-list');
+        const runtimeDetails = {
+          codex: {
+            title: 'Codex',
+            summary:
+              'Agrega el catálogo privado desde la rama release y luego instala el plugin principal.',
+            command:
+              'codex plugin marketplace add git@github.com:qurable/QDD-Sky.git --ref release\n' +
+              'codex plugin add qdd-sky@qdd-sky',
+          },
+          claude: {
+            title: 'Claude Code',
+            summary:
+              'Registra el marketplace publicado en release y luego instala el plugin principal.',
+            command:
+              '/plugin marketplace add qurable/QDD-Sky@release\n' +
+              '/plugin install qdd-sky@qdd-sky',
+          },
+          opencode: {
+            title: 'OpenCode',
+            summary: 'Instala el plugin principal directamente desde la rama release.',
+            command:
+              'opencode plugin "qdd-sky@git+ssh://git@github.com:qurable/QDD-Sky.git#release"',
+          },
+        };
         const executionDetails = {
           initiative: {
             title: 'Leer y precisar el pedido',
@@ -2587,7 +3124,90 @@
             ],
           },
         };
+        const workflowDetails = {
+          initiative: {
+            code: 'sky-take-ticket',
+            title: 'Resolver una iniciativa',
+            state: 'MR_READY',
+            prompt: '“Resuelve VC-1303.”',
+            primaryTitle: 'Paso a paso',
+            primary: [
+              'Lee el ticket, el DoR, los criterios y el material relacionado.',
+              'Identifica los repositorios, componentes y archivos afectados.',
+              'Comprueba cómo funciona el flujo actual y qué debe cambiar.',
+              'Aplica el cambio mínimo necesario en el orden definido.',
+              'Revisa el conjunto y ejecuta las validaciones correspondientes.',
+              'Crea los commits, publica la rama y verifica el MR resultante.',
+            ],
+            secondaryTitle: 'Qué entrega',
+            secondary: [
+              'Código y configuración limitados al alcance confirmado.',
+              'Validaciones registradas con sus resultados.',
+              'Rama publicada y MR comprobado después de crearlo.',
+            ],
+          },
+          investigation: {
+            code: 'sky-investigate-issue',
+            title: 'Explorar o investigar',
+            state: 'INVESTIGATED / BLOCKED',
+            prompt: '“Investiga este error en Stage.”',
+            primaryTitle: 'Puede comenzar por',
+            primary: [
+              'Explorar un flujo para identificar componentes y recorrido de datos.',
+              'Analizar un comportamiento y compararlo con el contrato o el historial.',
+              'Investigar un error siguiendo el mismo caso entre servicios.',
+            ],
+            secondaryTitle: 'Qué comprueba',
+            secondary: [
+              'Entrada y componente que origina el comportamiento.',
+              'API, mensaje, configuración o integración utilizada.',
+              'Procesamiento, persistencia y resultado observable.',
+              'Último punto confirmado y evidencia que respalda la conclusión.',
+            ],
+          },
+          qa: {
+            code: 'sky-verify-change',
+            title: 'Validar un cambio',
+            state: 'PASS / FAIL / BLOCKED',
+            prompt: '“Valida VC-1303 en QA.”',
+            primaryTitle: 'Paso a paso',
+            primary: [
+              'Confirma la versión exacta que se debe validar.',
+              'Comprueba que esa versión esté desplegada en el ambiente.',
+              'Define las pruebas necesarias según el cambio y el riesgo.',
+              'Ejecuta los casos y reúne la evidencia observable.',
+              'Determina el resultado a partir de lo ejecutado y observado.',
+            ],
+            secondaryTitle: 'Qué registra',
+            secondary: [
+              'Estado de ejecución: PASS, FAIL, BLOCKED o NOT_RUN.',
+              'Qué demuestra cada evidencia y qué queda pendiente.',
+              'Conclusión verificable para el cambio evaluado.',
+            ],
+          },
+          release: {
+            code: 'sky-prepare-release',
+            title: 'Preparar una entrega',
+            state: 'RELEASE_READY / TAG_PUBLISHED',
+            prompt: '“Prepara la release v2.4.0.”',
+            primaryTitle: 'Información que verifica',
+            primary: [
+              'Versiones, historial de cambios y artefacto que se entregará.',
+              'Ramas involucradas y cambios incluidos en cada una.',
+              'Relación entre tags, commits y ramas.',
+              'MRs, pipelines y evidencias asociados a la entrega.',
+            ],
+            secondaryTitle: 'Qué puede generar',
+            secondary: [
+              'Notas de release respaldadas por Jira y Git.',
+              'Documentación de despliegue y pasos para el pase.',
+              'Evidencias QA en el formato acordado.',
+              'Verificación final de los artefactos de la entrega.',
+            ],
+          },
+        };
         let activeIndex = 0;
+        let lastWorkflowTrigger = null;
 
         const clampIndex = (index) => Math.max(0, Math.min(slides.length - 1, index));
 
@@ -2625,6 +3245,35 @@
           slide.setAttribute('tabindex', '-1');
         });
 
+        const activateRuntime = (tab, moveFocus = false) => {
+          const detail = runtimeDetails[tab.dataset.runtime];
+          runtimeTabs.forEach((item) => {
+            const selected = item === tab;
+            item.setAttribute('aria-selected', String(selected));
+            item.tabIndex = selected ? 0 : -1;
+          });
+          runtimeCommandPanel.setAttribute('aria-labelledby', tab.id);
+          runtimeCommandTitle.textContent = detail.title;
+          runtimeCommandSummary.textContent = detail.summary;
+          runtimeCommandCode.textContent = detail.command;
+          if (moveFocus) tab.focus();
+        };
+
+        runtimeTabs.forEach((tab, index) => {
+          tab.addEventListener('click', () => activateRuntime(tab));
+          tab.addEventListener('keydown', (event) => {
+            const lastIndex = runtimeTabs.length - 1;
+            let nextIndex = index;
+            if (event.key === 'ArrowRight') nextIndex = index === lastIndex ? 0 : index + 1;
+            else if (event.key === 'ArrowLeft') nextIndex = index === 0 ? lastIndex : index - 1;
+            else if (event.key === 'Home') nextIndex = 0;
+            else if (event.key === 'End') nextIndex = lastIndex;
+            else return;
+            event.preventDefault();
+            activateRuntime(runtimeTabs[nextIndex], true);
+          });
+        });
+
         executionDetailTriggers.forEach((trigger) => {
           trigger.addEventListener('click', () => {
             const detail = executionDetails[trigger.dataset.detailKey];
@@ -2639,6 +3288,42 @@
             });
             executionDetailList.replaceChildren(...items);
           });
+        });
+
+        const replaceListItems = (list, items) => {
+          const elements = items.map((text) => {
+            const item = document.createElement('li');
+            item.textContent = text;
+            return item;
+          });
+          list.replaceChildren(...elements);
+        };
+
+        workflowDetailTriggers.forEach((trigger) => {
+          trigger.addEventListener('click', () => {
+            const detail = workflowDetails[trigger.dataset.workflow];
+            lastWorkflowTrigger = trigger;
+            workflowDialogCode.textContent = detail.code;
+            workflowDialogState.textContent = detail.state;
+            workflowDialogTitle.textContent = detail.title;
+            workflowDialogPrompt.textContent = detail.prompt;
+            workflowPrimaryTitle.textContent = detail.primaryTitle;
+            workflowSecondaryTitle.textContent = detail.secondaryTitle;
+            replaceListItems(workflowPrimaryList, detail.primary);
+            replaceListItems(workflowSecondaryList, detail.secondary);
+            workflowDialog.showModal();
+            closeWorkflowButton.focus();
+          });
+        });
+
+        closeWorkflowButton.addEventListener('click', () => workflowDialog.close());
+
+        workflowDialog.addEventListener('click', (event) => {
+          if (event.target === workflowDialog) workflowDialog.close();
+        });
+
+        workflowDialog.addEventListener('close', () => {
+          if (lastWorkflowTrigger) lastWorkflowTrigger.focus();
         });
 
         slides.forEach((slide, index) => {
@@ -2698,7 +3383,7 @@
           Boolean(target.closest('a, button, input, textarea, select, summary, dialog'));
 
         document.addEventListener('keydown', (event) => {
-          if (indexDialog.open) return;
+          if (indexDialog.open || workflowDialog.open) return;
           if (event.key.toLowerCase() === 'i') {
             event.preventDefault();
             openIndex();
