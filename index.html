@@ -8,6 +8,7 @@
       content="Presentación autoexplicativa sobre QDD Sky: componentes, instalación, workflows, ejecución, límites y canales de participación."
     />
     <title>QDD Sky — Demo</title>
+    <link rel="icon" href="assets/qdd-sky-mark-v2.png" type="image/png" />
     <style>
       :root {
         color-scheme: light;
@@ -115,7 +116,7 @@
       .brand {
         display: inline-flex;
         align-items: center;
-        gap: 0.65rem;
+        gap: 0.55rem;
         width: max-content;
         color: var(--ink);
         font-weight: 850;
@@ -123,15 +124,22 @@
       }
 
       .brand-mark {
-        display: grid;
-        width: 2rem;
-        height: 2rem;
-        place-items: center;
-        border-radius: 9px;
-        background: var(--navy);
-        color: #fff;
-        font-size: 0.7rem;
-        letter-spacing: 0.05em;
+        display: block;
+        width: 2.15rem;
+        height: 2.15rem;
+        object-fit: contain;
+      }
+
+      .brand-name {
+        display: inline-flex;
+        gap: 0.24rem;
+        align-items: baseline;
+        letter-spacing: -0.02em;
+      }
+
+      .brand-name span:last-child {
+        color: var(--blue-dark);
+        font-weight: 760;
       }
 
       .section-name {
@@ -2484,9 +2492,15 @@
     <a class="skip-link" href="#contenido">Ir al contenido</a>
 
     <header class="topbar" aria-label="Navegación de la presentación">
-      <a class="brand" href="#inicio" aria-label="Volver al inicio">
-        <span class="brand-mark" aria-hidden="true">QDD</span>
-        <span>QDD Sky</span>
+      <a class="brand" href="#inicio" aria-label="QDD Sky — volver al inicio">
+        <img
+          class="brand-mark"
+          src="assets/qdd-sky-mark-v2.png"
+          alt=""
+          width="35"
+          height="35"
+        />
+        <span class="brand-name" aria-hidden="true"><span>QDD</span><span>Sky</span></span>
       </a>
       <div class="section-name" id="section-name" aria-live="polite">QDD Sky</div>
       <div class="top-actions">
@@ -2637,23 +2651,30 @@
               <article class="install-step">
                 <span class="install-step-number">2</span>
                 <div>
-                  <strong>Elegir el runtime</strong>
-                  <p>Seleccionar una pestaña y ejecutar los comandos exactos para ese entorno.</p>
+                  <strong>Abrir el proyecto</strong>
+                  <p>
+                    Abre Codex, Claude Code u OpenCode desde la carpeta que contiene tus
+                    repositorios de trabajo. Después elige la pestaña de esa herramienta.
+                  </p>
                 </div>
               </article>
               <article class="install-step">
                 <span class="install-step-number">3</span>
                 <div>
-                  <strong>Activar el core</strong>
+                  <strong>Instalar QDD Sky</strong>
                   <p>
-                    Instalar <code>qdd-sky</code>. Los paquetes opcionales aparecen en el mismo
-                    catálogo y se agregan por separado cuando son necesarios.
+                    Instala <code>qdd-sky</code>. Los paquetes opcionales no se agregan solos: el
+                    usuario elige cuáles necesita y los instala por separado.
                   </p>
                 </div>
               </article>
             </div>
             <article class="runtime-panel">
-              <div class="runtime-tabs" role="tablist" aria-label="Runtime de instalación">
+              <div
+                class="runtime-tabs"
+                role="tablist"
+                aria-label="Herramienta de IA para instalar QDD Sky"
+              >
                 <button
                   class="runtime-tab"
                   id="runtime-tab-codex"
@@ -2717,8 +2738,8 @@ codex plugin add qdd-sky@qdd-sky</code></pre>
                     <span class="install-output-tag">config</span>
                   </div>
                   <p>
-                    El runtime recibe workflows, capacidades y conocimiento en la estructura que
-                    necesita para utilizarlos directamente.
+                    Al iniciar la herramienta desde esa carpeta, QDD Sky utiliza el proyecto, sus
+                    repositorios y sus reglas como contexto de trabajo.
                   </p>
                 </div>
               </div>
@@ -2912,6 +2933,7 @@ codex plugin add qdd-sky@qdd-sky</code></pre>
                 <li>Puede consultar el contexto y la evidencia necesarios con los accesos disponibles.</li>
                 <li>La acción es rutinaria, reversible y su resultado puede comprobarse.</li>
                 <li>Puede revisar y corregir el resultado antes de continuar.</li>
+                <li>Puede publicar la rama y crear o actualizar el MR cuando forman parte del pedido.</li>
               </ul>
             </article>
             <article class="independence-card is-blocked">
@@ -2922,7 +2944,7 @@ codex plugin add qdd-sky@qdd-sky</code></pre>
                 <li>El usuario debe elegir entre alternativas que cambian el alcance, el comportamiento o el resultado.</li>
                 <li>Falta un dato, acceso, permiso o evidencia indispensable.</li>
                 <li>La siguiente acción no estaba incluida en el pedido o requiere autorización explícita.</li>
-                <li>La acción es sensible: fusionar un MR, operar en PROD, pagar, reiniciar, revertir, reenviar eventos o publicar.</li>
+                <li>El siguiente paso depende de otra persona o sistema; por ejemplo, la aprobación y el merge del MR en GitLab.</li>
               </ul>
             </article>
           </div>
