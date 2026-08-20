@@ -1607,6 +1607,10 @@
         line-height: 1.42;
       }
 
+      .is-blocked .independence-points strong {
+        color: #7a4b00;
+      }
+
       .participation-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2922,7 +2926,10 @@ codex plugin add qdd-sky@qdd-sky</code></pre>
         <div class="slide-inner">
           <p class="kicker">07 — Cuándo interviene el usuario</p>
           <h2 id="titulo-limites">Cuándo necesita una respuesta</h2>
-          <p class="lead">La diferencia es si QDD puede ejecutar y comprobar el siguiente paso dentro del alcance autorizado.</p>
+          <p class="lead">
+            QDD continúa dentro del alcance autorizado. Solo pausa en checkpoints definidos o
+            cuando falta una condición indispensable.
+          </p>
           <div class="independence-grid" aria-label="Comparación de cuándo QDD continúa y cuándo necesita una respuesta">
             <article class="independence-card is-independent">
               <span class="independence-status">NO NECESITA RESPUESTA</span>
@@ -2938,13 +2945,18 @@ codex plugin add qdd-sky@qdd-sky</code></pre>
             </article>
             <article class="independence-card is-blocked">
               <span class="independence-status">NECESITA RESPUESTA</span>
-              <h3>Se detiene ante un bloqueo</h3>
-              <p>Cualquiera de estas condiciones impide que continúe de forma independiente:</p>
+              <h3>Pausa en un checkpoint o por un bloqueo</h3>
+              <p>
+                Un checkpoint es una revisión prevista. Un bloqueo significa que no puede
+                continuar con la evidencia o la autoridad disponibles.
+              </p>
               <ul class="independence-points">
-                <li>El usuario debe elegir entre alternativas que cambian el alcance, el comportamiento o el resultado.</li>
-                <li>Falta un dato, acceso, permiso o evidencia indispensable.</li>
-                <li>La siguiente acción no estaba incluida en el pedido o requiere autorización explícita.</li>
-                <li>El siguiente paso depende de otra persona o sistema; por ejemplo, la aprobación y el merge del MR en GitLab.</li>
+                <li><strong>Checkpoint:</strong> el workflow está configurado para una revisión humana antes de continuar.</li>
+                <li><strong>Checkpoint:</strong> el usuario debe elegir una alternativa que cambia el alcance, el comportamiento o el resultado.</li>
+                <li><strong>Checkpoint:</strong> debe aprobarse el contenido y el destino antes de escribir en Jira, Confluence, Google Docs u otro sistema remoto.</li>
+                <li><strong>Checkpoint:</strong> la acción requiere una autorización especial, como operar en PROD, pagar, reiniciar, revertir o reenviar eventos.</li>
+                <li><strong>Bloqueo:</strong> falta un dato, acceso, permiso o evidencia indispensable.</li>
+                <li><strong>Bloqueo:</strong> el resultado depende de otra persona o sistema; por ejemplo, la aprobación y el merge del MR en GitLab.</li>
               </ul>
             </article>
           </div>
